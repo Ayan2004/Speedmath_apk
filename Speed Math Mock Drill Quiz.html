@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Math Mock Drill — Custom Quiz Engine</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom animations and scrollbars */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.22s ease-out forwards;
+        }
+        .animate-shake {
+            animation: shake 0.35s ease-in-out;
+        }
+        /* Remove number input spinners for cleaner look */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white transition-colors duration-200">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-30 backdrop-blur-md bg-white/85 dark:bg-slate-900/85 border-b border-slate-200 dark:border-slate-800">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+            <!-- Brand Logo & Title -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-white font-mono font-bold text-lg shadow-md shadow-indigo-500/20">
+                    ∑
+                </div>
+                <div>
+                    <h1 class="font-bold text-base sm:text-lg tracking-tight leading-tight">Speed Math Mock Drill</h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">Text-Input Calculation Trainer • No Multiple Choice</p>
+                </div>
+            </div>
+
+            <!-- Action Buttons: Theme Toggle & Download HTML File -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button id="themeToggleBtn" type="button" onclick="toggleTheme()" 
+                    class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors"
+                    title="Toggle Light/Dark Mode" aria-label="Toggle Theme">
+                    <!-- Sun Icon (shown in dark mode) -->
+                    <svg id="sunIcon" class="w-5 h-5 hidden dark:block text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    <!-- Moon Icon (shown in light mode) -->
+                    <svg id="moonIcon" class="w-5 h-5 block dark:hidden text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+
+          
+            </div>
+        </div>
+    </header>
+
+    <!-- Toast Notification Banner -->
+    <div id="toastBanner" class="fixed bottom-5 right-5 z-50 hidden max-w-sm bg-slate-900 dark:bg-slate-800 text-white border border-slate-700 px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 animate-fade-in">
+        <span id="toastIcon" class="text-emerald-400">✓</span>
+        <span id="toastMessage" class="text-sm font-medium">Notification</span>
+    </div>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-10">
+
+        <!-- ==========================================
+             SCREEN 1: SETUP / CONFIGURATION SCREEN
+             ========================================== -->
+        <section id="setupScreen" class="space-y-6 animate-fade-in">
+            <!-- Hero Intro Card -->
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
+                    <div>
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800/60 mb-2">
+                            ⚡ Custom Range Mock Drill
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Configure Categories &amp; Ranges</h2>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                            Select the categories you want to practice and set custom <code class="font-mono font-bold text-indigo-600 dark:text-indigo-400">From</code> &amp; <code class="font-mono font-bold text-indigo-600 dark:text-indigo-400">To</code> ranges for each.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 1: Category Checkboxes & Individual From/To Ranges -->
+                <div class="mt-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                        <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                            <span class="w-5 h-5 rounded-full bg-indigo-600 text-white text-xs flex items-center justify-center font-bold">1</span>
+                            Select Categories &amp; Set Custom Ranges
+                        </h3>
+                        <div class="flex items-center gap-2">
+                            <button type="button" onclick="toggleAllCategories(true)" class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline cursor-pointer">Select All</button>
+                            <span class="text-slate-300 dark:text-slate-700">|</span>
+                            <button type="button" onclick="toggleAllCategories(false)" class="text-xs font-semibold text-slate-500 dark:text-slate-400 hover:underline cursor-pointer">Clear All</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Category 1: Multiplication Table (From, To, and exclusive m option) -->
+                        <div class="group relative flex flex-col justify-between p-5 rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all has-[:checked]:border-indigo-600 dark:has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50/30 dark:has-[:checked]:bg-indigo-950/20">
+                            <div>
+                                <!-- Clickable Header for Checkbox -->
+                                <label for="catMultiplication" class="flex items-start gap-3.5 cursor-pointer select-none">
+                                    <input id="catMultiplication" type="checkbox" value="multiplication" checked onchange="hideSetupError()"
+                                        class="mt-1 w-5 h-5 rounded text-indigo-600 border-slate-300 dark:border-slate-600 focus:ring-indigo-500 cursor-pointer">
+                                    <div class="flex-1">
+                                        <div class="flex flex-wrap items-center justify-between gap-2">
+                                            <span class="font-bold text-base text-slate-900 dark:text-white">Multiplication Table</span>
+                                            <span id="previewMult" class="px-2.5 py-0.5 text-xs font-mono font-bold rounded-full bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800/60">
+                                                Tables 11–20 × up to 10
+                                            </span>
+                                        </div>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                                            Practice tables from a custom range multiplied up to <code class="font-mono font-semibold">m</code>.
+                                        </p>
+                                    </div>
+                                </label>
+
+                                <!-- Range Inputs (Isolated from label so clicking doesn't toggle checkbox) -->
+                                <div class="mt-4 pt-3.5 border-t border-slate-200/80 dark:border-slate-800/80 space-y-3">
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label for="multFrom" class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Table From</label>
+                                            <input id="multFrom" type="number" min="1" max="500" value="11" oninput="updateRangePreviews()"
+                                                class="w-full px-3 py-2 rounded-lg font-mono text-sm font-bold bg-slate-50 dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white">
+                                        </div>
+                                        <div>
+                                            <label for="multTo" class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Table To</label>
+                                            <input id="multTo" type="number" min="1" max="500" value="20" oninput="updateRangePreviews()"
+                                                class="w-full px-3 py-2 rounded-lg font-mono text-sm font-bold bg-slate-50 dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white">
+                                        </div>
+                                    </div>
+
+                                    <!-- Exclusive m (Multiply up to) option with 10 / 15 / 20 quick chips -->
+                                    <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/60">
+                                        <div class="flex items-center justify-between gap-2 mb-1.5">
+                                            <label for="multM" class="text-xs font-bold text-slate-700 dark:text-slate-300">
+                                                Multiply up to (<span class="font-mono text-indigo-600 dark:text-indigo-400">m</span>)
+                                            </label>
+                                            <span class="text-[11px] text-slate-400 dark:text-slate-500 font-mono">n × m</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <input id="multM" type="number" min="2" max="200" value="10" oninput="updateRangePreviews()"
+                                                class="w-24 px-3 py-1.5 rounded-lg font-mono text-sm font-bold bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white">
+                                            <div class="flex-1 flex items-center gap-1.5">
+                                                <button type="button" onclick="setMultM(10)" id="multMChip10"
+                                                    class="flex-1 py-1.5 px-2 text-xs font-mono font-bold rounded-lg bg-indigo-600 text-white shadow-xs transition-all cursor-pointer">
+                                                    ×10
+                                                </button>
+                                                <button type="button" onclick="setMultM(15)" id="multMChip15"
+                                                    class="flex-1 py-1.5 px-2 text-xs font-mono font-bold rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-indigo-600 hover:text-white transition-all cursor-pointer">
+                                                    ×15
+                                                </button>
+                                                <button type="button" onclick="setMultM(20)" id="multMChip20"
+                                                    class="flex-1 py-1.5 px-2 text-xs font-mono font-bold rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-indigo-600 hover:text-white transition-all cursor-pointer">
+                                                    ×20
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category 2: Squares -->
+                        <div class="group relative flex flex-col justify-between p-5 rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all has-[:checked]:border-indigo-600 dark:has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50/30 dark:has-[:checked]:bg-indigo-950/20">
+                            <div>
+                                <label for="catSquares" class="flex items-start gap-3.5 cursor-pointer select-none">
+                                    <input id="catSquares" type="checkbox" value="squares" checked onchange="hideSetupError()"
+                                        class="mt-1 w-5 h-5 rounded text-indigo-600 border-slate-300 dark:border-slate-600 focus:ring-indigo-500 cursor-pointer">
+                                    <div class="flex-1">
+                                        <div class="flex flex-wrap items-center justify-between gap-2">
+                                            <span class="font-bold text-base text-slate-900 dark:text-white">Squares (n²)</span>
+                                            <span id="previewSquares" class="px-2.5 py-0.5 text-xs font-mono font-bold rounded-full bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800/60">
+                                                11² to 30²
+                                            </span>
+                                        </div>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                                            Calculate exact squares of numbers within your chosen range.
+                                        </p>
+                                    </div>
+                                </label>
+
+                                <div class="mt-4 pt-3.5 border-t border-slate-200/80 dark:border-slate-800/80">
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label for="sqFrom" class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">From Number</label>
+                                            <input id="sqFrom" type="number" min="1" max="500" value="11" oninput="updateRangePreviews()"
+                                                class="w-full px-3 py-2 rounded-lg font-mono text-sm font-bold bg-slate-50 dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white">
+                                        </div>
+                                        <div>
+                                            <label for="sqTo" class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">To Number</label>
+                                            <input id="sqTo" type="number" min="1" max="500" value="30" oninput="updateRangePreviews()"
+                                                class="w-full px-3 py-2 rounded-lg font-mono text-sm font-bold bg-slate-50 dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category 3: Cubes -->
+                        <div class="group relative flex flex-col justify-between p-5 rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all has-[:checked]:border-indigo-600 dark:has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50/30 dark:has-[:checked]:bg-indigo-950/20">
+                            <div>
+                                <label for="catCubes" class="flex items-start gap-3.5 cursor-pointer select-none">
+                                    <input id="catCubes" type="checkbox" value="cubes" checked onchange="hideSetupError()"
+                                        class="mt-1 w-5 h-5 rounded text-indigo-600 border-slate-300 dark:border-slate-600 focus:ring-indigo-500 cursor-pointer">
+                                    <div class="flex-1">
+                                        <div class="flex flex-wrap items-center justify-between gap-2">
+                                            <span class="font-bold text-base text-slate-900 dark:text-white">Cubes (n³)</span>
+                                            <span id="previewCubes" class="px-2.5 py-0.5 text-xs font-mono font-bold rounded-full bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60">
+                                                1³ to 15³
+                                            </span>
+                                        </div>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                                            Calculate exact cubes of numbers within your chosen range.
+                                        </p>
+                                    </div>
+                                </label>
+
+                                <div class="mt-4 pt-3.5 border-t border-slate-200/80 dark:border-slate-800/80">
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label for="cubeFrom" class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">From Number</label>
+                                            <input id="cubeFrom" type="number" min="1" max="200" value="1" oninput="updateRangePreviews()"
+                                                class="w-full px-3 py-2 rounded-lg font-mono text-sm font-bold bg-slate-50 dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white">
+                                        </div>
+                                        <div>
+                                            <label for="cubeTo" class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">To Number</label>
+                                            <input id="cubeTo" type="number" min="1" max="200" value="15" oninput="updateRangePreviews()"
+                                                class="w-full px-3 py-2 rounded-lg font-mono text-sm font-bold bg-slate-50 dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category 4: Percentage ↔ Fraction -->
+                        <div class="group relative flex flex-col justify-between p-5 rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all has-[:checked]:border-indigo-600 dark:has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50/30 dark:has-[:checked]:bg-indigo-950/20">
+                            <div>
+                                <label for="catPercFrac" class="flex items-start gap-3.5 cursor-pointer select-none">
+                                    <input id="catPercFrac" type="checkbox" value="perc_frac" checked onchange="hideSetupError()"
+                                        class="mt-1 w-5 h-5 rounded text-indigo-600 border-slate-300 dark:border-slate-600 focus:ring-indigo-500 cursor-pointer">
+                                    <div class="flex-1">
+                                        <div class="flex flex-wrap items-center justify-between gap-2">
+                                            <span class="font-bold text-base text-slate-900 dark:text-white">Percentage ↔ Fraction</span>
+                                            <span id="previewPercFrac" class="px-2.5 py-0.5 text-xs font-mono font-bold rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60">
+                                                1/2 to 1/20
+                                            </span>
+                                        </div>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                                            Vice-versa conversions between fractions (<code class="font-mono">1/n</code>) and percentages.
+                                        </p>
+                                    </div>
+                                </label>
+
+                                <div class="mt-4 pt-3.5 border-t border-slate-200/80 dark:border-slate-800/80">
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label for="pfFrom" class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">From Denominator (n)</label>
+                                            <input id="pfFrom" type="number" min="2" max="200" value="2" oninput="updateRangePreviews()"
+                                                class="w-full px-3 py-2 rounded-lg font-mono text-sm font-bold bg-slate-50 dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white">
+                                        </div>
+                                        <div>
+                                            <label for="pfTo" class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">To Denominator (n)</label>
+                                            <input id="pfTo" type="number" min="2" max="200" value="20" oninput="updateRangePreviews()"
+                                                class="w-full px-3 py-2 rounded-lg font-mono text-sm font-bold bg-slate-50 dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Total Questions Count -->
+                <div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-2">
+                        <span class="w-5 h-5 rounded-full bg-indigo-600 text-white text-xs flex items-center justify-center font-bold">2</span>
+                        Total Questions in Mock Drill
+                    </h3>
+
+                    <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <label for="inputTotalQuestions" class="block text-sm font-bold text-slate-800 dark:text-slate-200">
+                                Number of Questions
+                            </label>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                                Questions will be balanced across your selected categories (1–300).
+                            </p>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <input id="inputTotalQuestions" type="number" min="1" max="300" value="20"
+                                class="w-24 px-3.5 py-2 rounded-lg font-mono text-base font-bold bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white text-center">
+                            <div class="flex items-center gap-1.5">
+                                <button type="button" onclick="setQuestionCount(10)" class="px-3 py-2 text-xs font-mono font-bold rounded-lg bg-slate-200 dark:bg-slate-700 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 transition-colors cursor-pointer">10</button>
+                                <button type="button" onclick="setQuestionCount(20)" class="px-3 py-2 text-xs font-mono font-bold rounded-lg bg-slate-200 dark:bg-slate-700 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 transition-colors cursor-pointer">20</button>
+                                <button type="button" onclick="setQuestionCount(30)" class="px-3 py-2 text-xs font-mono font-bold rounded-lg bg-slate-200 dark:bg-slate-700 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 transition-colors cursor-pointer">30</button>
+                                <button type="button" onclick="setQuestionCount(50)" class="px-3 py-2 text-xs font-mono font-bold rounded-lg bg-slate-200 dark:bg-slate-700 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 transition-colors cursor-pointer">50</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Validation Error Banner -->
+                <div id="setupErrorBanner" class="hidden mt-5 p-4 rounded-xl bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 text-sm font-medium flex items-center gap-2.5">
+                    <svg class="w-5 h-5 shrink-0 text-rose-600 dark:text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span id="setupErrorText">Please select at least one category to start the mock drill.</span>
+                </div>
+
+                <!-- Start Quiz CTA Button -->
+                <div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                        <span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 font-mono text-slate-700 dark:text-slate-300 font-semibold">Enter ↵</span>
+                        <span>Submit answer &amp; advance quickly using your keyboard</span>
+                    </div>
+                    <button type="button" onclick="startQuiz()"
+                        class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-bold text-base shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2 transition-all cursor-pointer">
+                        <span>Start Mock Drill</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SCREEN 2: QUIZ / MOCK DRILL INTERFACE
+             ========================================== -->
+        <section id="quizScreen" class="hidden space-y-5 animate-fade-in">
+            <!-- Top Status Bar: Progress, Score & Timer -->
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm">
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+                    <!-- Question Counter -->
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Question</span>
+                        <span class="font-mono text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white">
+                            <span id="currentQNum">1</span><span class="text-slate-400 dark:text-slate-600 font-normal"> / </span><span id="totalQNum">20</span>
+                        </span>
+                    </div>
+
+                    <!-- Live Score Pills & Timer -->
+                    <div class="flex items-center gap-2 sm:gap-3">
+                        <div class="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/70 text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm font-bold">
+                            <span>✓ Correct:</span>
+                            <span id="liveCorrectCount" class="font-mono">0</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-800/70 text-rose-700 dark:text-rose-300 text-xs sm:text-sm font-bold">
+                            <span>✗ Wrong:</span>
+                            <span id="liveWrongCount" class="font-mono">0</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs sm:text-sm font-mono font-semibold">
+                            <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span id="liveTimer">00:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visual Progress Bar -->
+                <div class="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                    <div id="quizProgressBar" class="h-full bg-gradient-to-r from-indigo-600 to-violet-500 transition-all duration-300" style="width: 5%"></div>
+                </div>
+            </div>
+
+            <!-- Main Question Card -->
+            <div id="questionCard" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm">
+                <!-- Category Badge & Range Tag -->
+                <div class="flex items-center justify-between gap-2 mb-6">
+                    <span id="questionCategoryBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">
+                        Multiplication Table
+                    </span>
+                    <button type="button" onclick="finishQuizEarly()" class="text-xs font-semibold text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 transition-colors">
+                        End Drill &amp; View Report →
+                    </button>
+                </div>
+
+                <!-- Question Prompt Display -->
+                <div class="text-center py-6 sm:py-8 px-4 rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200/80 dark:border-slate-800/80 mb-6">
+                    <p id="questionSubPrompt" class="text-xs sm:text-sm font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
+                        Calculate the exact value
+                    </p>
+                    <div id="questionText" class="font-mono text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight break-words">
+                        17 × 8 = ?
+                    </div>
+                </div>
+
+                <!-- Text Answer Input Box (No Multiple Choice Options) -->
+                <div class="max-w-lg mx-auto">
+                    <label for="answerInput" class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2 text-center">
+                        Type Your Answer Below
+                    </label>
+                    <div class="relative">
+                        <input id="answerInput" type="text" autocomplete="off" spellcheck="false"
+                            placeholder="Type answer here..."
+                            class="w-full px-5 py-4 rounded-xl font-mono text-2xl sm:text-3xl font-bold text-center bg-white dark:bg-slate-950 border-2 border-slate-300 dark:border-slate-700 focus:border-indigo-600 dark:focus:border-indigo-500 focus:outline-none focus:ring-4 focus:ring-indigo-500/15 text-slate-900 dark:text-white transition-all">
+                    </div>
+
+                    <!-- Dynamic Formatting Hint for Input -->
+                    <p id="inputFormatHint" class="text-xs text-center text-slate-500 dark:text-slate-400 mt-2.5">
+                        Enter a whole number and press <kbd class="px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 font-mono text-slate-700 dark:text-slate-300">Enter</kbd> to submit.
+                    </p>
+
+                    <!-- Instant Correct / Wrong Feedback Banner (Hidden until answer is submitted) -->
+                    <div id="feedbackBanner" class="hidden mt-5 p-4 rounded-xl border-2 animate-fade-in">
+                        <div class="flex items-start gap-3">
+                            <div id="feedbackIconBox" class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-lg shrink-0 mt-0.5">
+                                ✓
+                            </div>
+                            <div class="flex-1">
+                                <h4 id="feedbackTitle" class="font-extrabold text-base">Correct! Well done.</h4>
+                                <p id="feedbackDetail" class="text-sm mt-1 font-mono"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit / Next Action Buttons -->
+                    <div class="mt-6 flex items-center gap-3">
+                        <button id="submitAnswerBtn" type="button" onclick="handleSubmitAnswer()"
+                            class="flex-1 py-3.5 px-6 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-bold text-base shadow-md shadow-indigo-500/20 transition-all cursor-pointer flex items-center justify-center gap-2">
+                            <span>Submit Answer</span>
+                            <span class="text-xs font-mono opacity-80 bg-indigo-700/60 px-2 py-0.5 rounded">Enter ↵</span>
+                        </button>
+
+                        <button id="skipQuestionBtn" type="button" onclick="handleSkipQuestion()"
+                            class="py-3.5 px-4 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold text-sm transition-all cursor-pointer"
+                            title="Reveal answer and mark as wrong">
+                            Don't Know
+                        </button>
+
+                        <button id="nextQuestionBtn" type="button" onclick="handleNextQuestion()"
+                            class="hidden flex-1 py-3.5 px-6 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-bold text-base shadow-md shadow-emerald-500/20 transition-all cursor-pointer flex items-center justify-center gap-2">
+                            <span id="nextBtnText">Next Question →</span>
+                            <span class="text-xs font-mono opacity-80 bg-emerald-700/60 px-2 py-0.5 rounded">Enter ↵</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SCREEN 3: DETAILED END-OF-QUIZ REVIEW
+             ========================================== -->
+        <section id="reviewScreen" class="hidden space-y-6 animate-fade-in">
+            <!-- Header & Overall Summary Cards -->
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
+                    <div>
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 mb-2">
+                            📊 Mock Drill Complete
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Performance &amp; Category Report</h2>
+                        <p id="reviewConfigSummary" class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 font-mono">
+                            Parameters: n = 20, m = 10
+                        </p>
+                    </div>
+
+                    <!-- Top Action Buttons -->
+                    <div class="flex flex-wrap items-center gap-2.5">
+                        <button type="button" onclick="retrySameSettings()"
+                            class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm shadow-sm transition-all cursor-pointer">
+                            ↻ Retry Same Settings
+                        </button>
+                        <button type="button" onclick="returnToSetup()"
+                            class="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-sm transition-all cursor-pointer">
+                            ⚙ Change Ranges
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 5 Summary Metric Cards -->
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4 mt-6">
+                    <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-center">
+                        <p class="text-xs font-semibold uppercase text-slate-400 dark:text-slate-500">Attempted</p>
+                        <p id="summaryTotal" class="font-mono text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-1">20</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/60 text-center">
+                        <p class="text-xs font-semibold uppercase text-emerald-600 dark:text-emerald-400">Correct</p>
+                        <p id="summaryCorrect" class="font-mono text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">18</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-rose-50/70 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-center">
+                        <p class="text-xs font-semibold uppercase text-rose-600 dark:text-rose-400">Wrong</p>
+                        <p id="summaryWrong" class="font-mono text-2xl sm:text-3xl font-extrabold text-rose-600 dark:text-rose-400 mt-1">2</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-900/60 text-center">
+                        <p class="text-xs font-semibold uppercase text-indigo-600 dark:text-indigo-400">Accuracy</p>
+                        <p id="summaryAccuracy" class="font-mono text-2xl sm:text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 mt-1">90%</p>
+                    </div>
+                    <div class="col-span-2 sm:col-span-1 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-center">
+                        <p class="text-xs font-semibold uppercase text-slate-400 dark:text-slate-500">Total Time</p>
+                        <p id="summaryTime" class="font-mono text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-1">01:15</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category-Wise Breakdown Table -->
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm">
+                <h3 class="text-lg font-extrabold tracking-tight mb-1">Category-Wise Breakdown</h3>
+                <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mb-5">
+                    Detailed summary of how many questions you got <strong class="text-emerald-600 dark:text-emerald-400">Correct</strong>, <strong class="text-rose-600 dark:text-rose-400">Wrong</strong>, or <strong class="text-amber-600 dark:text-amber-400">Skipped</strong> in each of the 4 categories.
+                </p>
+
+                <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 text-xs uppercase font-bold tracking-wider">
+                                <th class="py-3.5 px-4">Category &amp; Range</th>
+                                <th class="py-3.5 px-4 text-center">Attempted</th>
+                                <th class="py-3.5 px-4 text-center text-emerald-600 dark:text-emerald-400">Correct</th>
+                                <th class="py-3.5 px-4 text-center text-rose-600 dark:text-rose-400">Wrong</th>
+                                <th class="py-3.5 px-4 text-center text-amber-600 dark:text-amber-400">Skipped</th>
+                                <th class="py-3.5 px-4">Accuracy</th>
+                            </tr>
+                        </thead>
+                        <tbody id="categoryBreakdownBody" class="divide-y divide-slate-200 dark:divide-slate-800 text-sm">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Question-by-Question Detailed Review Log -->
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm">
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+                    <div>
+                        <h3 class="text-lg font-extrabold tracking-tight">Question-by-Question Review Log</h3>
+                        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+                            Compare your submitted answers with the exact solution for every question.
+                        </p>
+                    </div>
+
+                    <!-- Filter Buttons -->
+                    <div class="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+                        <button type="button" id="filterAllBtn" onclick="filterQuestionLog('all')"
+                            class="px-3 py-1.5 rounded-lg text-xs font-bold bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm transition-all cursor-pointer">
+                            All
+                        </button>
+                        <button type="button" id="filterWrongBtn" onclick="filterQuestionLog('wrong')"
+                            class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all cursor-pointer">
+                            Wrong Only
+                        </button>
+                        <button type="button" id="filterCorrectBtn" onclick="filterQuestionLog('correct')"
+                            class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all cursor-pointer">
+                            Correct Only
+                        </button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto max-h-[460px] overflow-y-auto rounded-xl border border-slate-200 dark:border-slate-800">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="sticky top-0 z-10">
+                            <tr class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs uppercase font-bold tracking-wider">
+                                <th class="py-3 px-4">#</th>
+                                <th class="py-3 px-4">Category</th>
+                                <th class="py-3 px-4">Question</th>
+                                <th class="py-3 px-4">Your Answer</th>
+                                <th class="py-3 px-4">Correct Answer</th>
+                                <th class="py-3 px-4 text-center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="questionLogBody" class="divide-y divide-slate-200 dark:divide-slate-800 text-sm">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-slate-200 dark:border-slate-800/80 bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm py-5 text-xs text-slate-500 dark:text-slate-400">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+                <span>Speed Math Mock Drill</span>
+                <span class="text-slate-300 dark:text-slate-700">•</span>
+                <span class="font-semibold text-slate-700 dark:text-slate-200">
+                    Created by <span class="text-indigo-600 dark:text-indigo-400 font-bold">Ayan</span>
+                </span>
+            </div>
+        
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         APPLICATION JAVASCRIPT
+         ========================================== -->
+    <script>
+        /**
+         * Capture a clean snapshot of the original HTML document on load so that
+         * clicking "Download HTML File" at any time exports a pristine standalone file.
+         */
+        let cleanInitialHTML = '';
+        window.addEventListener('DOMContentLoaded', () => {
+            updateRangePreviews();
+            cleanInitialHTML = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+        });
+
+        /**
+         * Category metadata definitions
+         */
+        const CATEGORIES = {
+            multiplication: {
+                id: 'multiplication',
+                name: 'Multiplication Table',
+                shortBadge: 'Multiplication Table',
+                badgeClasses: 'bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800/60'
+            },
+            squares: {
+                id: 'squares',
+                name: 'Squares (n²)',
+                shortBadge: 'Squares (n²)',
+                badgeClasses: 'bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800/60'
+            },
+            cubes: {
+                id: 'cubes',
+                name: 'Cubes (n³)',
+                shortBadge: 'Cubes (n³)',
+                badgeClasses: 'bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60'
+            },
+            perc_frac: {
+                id: 'perc_frac',
+                name: 'Percentage ↔ Fraction',
+                shortBadge: 'Percentage ↔ Fraction',
+                badgeClasses: 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60'
+            }
+        };
+
+        /**
+         * Global Quiz State
+         */
+        let quizState = {
+            ranges: {
+                multiplication: { from: 11, to: 20, m: 10 },
+                squares: { from: 11, to: 30 },
+                cubes: { from: 1, to: 15 },
+                perc_frac: { from: 2, to: 20 }
+            },
+            totalQuestions: 20,
+            selectedCategories: [],
+            questions: [],
+            currentIndex: 0,
+            isSubmitted: false,
+            correctCount: 0,
+            wrongCount: 0,
+            startTime: null,
+            elapsedSeconds: 0,
+            timerInterval: null,
+            currentLogFilter: 'all'
+        };
+
+        /**
+         * Light / Dark Theme Toggle
+         */
+        function toggleTheme() {
+            const htmlEl = document.documentElement;
+            htmlEl.classList.toggle('dark');
+        }
+
+        /**
+         * Toast notification helper
+         */
+        let toastTimeout = null;
+        function showToast(message, icon = '✓') {
+            const banner = document.getElementById('toastBanner');
+            const msgEl = document.getElementById('toastMessage');
+            const iconEl = document.getElementById('toastIcon');
+
+            msgEl.textContent = message;
+            iconEl.textContent = icon;
+            banner.classList.remove('hidden');
+
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                banner.classList.add('hidden');
+            }, 3200);
+        }
+
+        /**
+         * Download the complete standalone HTML file
+         */
+        function downloadStandaloneHTML() {
+            try {
+                const htmlContent = cleanInitialHTML || ('<!DOCTYPE html>\n' + document.documentElement.outerHTML);
+                const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'speed-math-quiz.html';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast('Downloaded speed-math-quiz.html successfully!');
+            } catch (err) {
+                console.error('Download error:', err);
+                showToast('Could not trigger download in this environment.', '⚠');
+            }
+        }
+
+        /**
+         * Set Multiplication 'm' value via preset chips (10, 15, 20)
+         */
+        function setMultM(val) {
+            document.getElementById('multM').value = val;
+            updateRangePreviews();
+        }
+
+        /**
+         * Highlight active preset chip for Multiplication 'm' (10, 15, 20)
+         */
+        function updateMultMChipStyles(currentM) {
+            [10, 15, 20].forEach(preset => {
+                const btn = document.getElementById(`multMChip${preset}`);
+                if (!btn) return;
+                if (currentM === preset) {
+                    btn.className = 'flex-1 py-1.5 px-2 text-xs font-mono font-bold rounded-lg bg-indigo-600 text-white shadow-xs transition-all cursor-pointer';
+                } else {
+                    btn.className = 'flex-1 py-1.5 px-2 text-xs font-mono font-bold rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-indigo-600 hover:text-white transition-all cursor-pointer';
+                }
+            });
+        }
+
+        /**
+         * Live update of category range preview badges when From, To, or m changes
+         */
+        function updateRangePreviews() {
+            const multFrom = parseInt(document.getElementById('multFrom').value, 10) || 1;
+            const multTo = parseInt(document.getElementById('multTo').value, 10) || 1;
+            const multM = parseInt(document.getElementById('multM').value, 10) || 10;
+
+            const sqFrom = parseInt(document.getElementById('sqFrom').value, 10) || 1;
+            const sqTo = parseInt(document.getElementById('sqTo').value, 10) || 1;
+
+            const cubeFrom = parseInt(document.getElementById('cubeFrom').value, 10) || 1;
+            const cubeTo = parseInt(document.getElementById('cubeTo').value, 10) || 1;
+
+            const pfFrom = parseInt(document.getElementById('pfFrom').value, 10) || 2;
+            const pfTo = parseInt(document.getElementById('pfTo').value, 10) || 2;
+
+            document.getElementById('previewMult').textContent = `Tables ${multFrom}–${multTo} × up to ${multM}`;
+            document.getElementById('previewSquares').textContent = `${sqFrom}² to ${sqTo}²`;
+            document.getElementById('previewCubes').textContent = `${cubeFrom}³ to ${cubeTo}³`;
+            document.getElementById('previewPercFrac').textContent = `1/${pfFrom} to 1/${pfTo}`;
+
+            updateMultMChipStyles(multM);
+        }
+
+        /**
+         * Quick preset setter for total question count
+         */
+        function setQuestionCount(count) {
+            document.getElementById('inputTotalQuestions').value = count;
+        }
+
+        /**
+         * Select or Deselect all 4 categories
+         */
+        function toggleAllCategories(checked) {
+            ['catMultiplication', 'catSquares', 'catCubes', 'catPercFrac'].forEach(id => {
+                document.getElementById(id).checked = checked;
+            });
+            if (checked) hideSetupError();
+        }
+
+        function showSetupError(msg) {
+            const banner = document.getElementById('setupErrorBanner');
+            document.getElementById('setupErrorText').textContent = msg;
+            banner.classList.remove('hidden');
+        }
+
+        function hideSetupError() {
+            document.getElementById('setupErrorBanner').classList.add('hidden');
+        }
+
+        /**
+         * Greatest Common Divisor helper for simplifying fractions
+         */
+        function gcd(a, b) {
+            a = Math.abs(a);
+            b = Math.abs(b);
+            while (b) {
+                const t = b;
+                b = a % b;
+                a = t;
+            }
+            return a || 1;
+        }
+
+        /**
+         * Format 100/k as a mixed fraction string if it doesn't divide evenly (e.g., 100/6 -> "16 2/3%")
+         */
+        function getMixedFractionPercentage(k) {
+            const whole = Math.floor(100 / k);
+            const rem = 100 % k;
+            if (rem === 0) {
+                return `${whole}%`;
+            }
+            const g = gcd(rem, k);
+            return `${whole} ${rem / g}/${k / g}%`;
+        }
+
+        /**
+         * Generate pool of candidate questions for a single category using its custom From/To/m range
+         */
+        function buildCategoryPool(category, ranges) {
+            const pool = [];
+
+            if (category === 'multiplication') {
+                const { from, to, m } = ranges.multiplication;
+                const startB = m >= 2 ? 2 : 1;
+                for (let a = from; a <= to; a++) {
+                    for (let b = startB; b <= m; b++) {
+                        pool.push({
+                            category: 'multiplication',
+                            subPrompt: `Multiplication Table (${from}–${to} × up to ${m})`,
+                            prompt: `${a} × ${b} = ?`,
+                            expectedType: 'integer',
+                            exactValue: a * b,
+                            displayAnswer: `${a * b}`,
+                            explanation: `${a} × ${b} = ${a * b}`,
+                            hint: 'Type the exact product and press Enter.'
+                        });
+                    }
+                }
+            } else if (category === 'squares') {
+                const { from, to } = ranges.squares;
+                for (let x = from; x <= to; x++) {
+                    pool.push({
+                        category: 'squares',
+                        subPrompt: `Square of a Number (${from}² to ${to}²)`,
+                        prompt: `${x}² = ?`,
+                        expectedType: 'integer',
+                        exactValue: x * x,
+                        displayAnswer: `${x * x}`,
+                        explanation: `${x}² = ${x} × ${x} = ${x * x}`,
+                        hint: 'Type the exact square value and press Enter.'
+                    });
+                }
+            } else if (category === 'cubes') {
+                const { from, to } = ranges.cubes;
+                for (let x = from; x <= to; x++) {
+                    pool.push({
+                        category: 'cubes',
+                        subPrompt: `Cube of a Number (${from}³ to ${to}³)`,
+                        prompt: `${x}³ = ?`,
+                        expectedType: 'integer',
+                        exactValue: x * x * x,
+                        displayAnswer: `${x * x * x}`,
+                        explanation: `${x}³ = ${x} × ${x} × ${x} = ${x * x * x}`,
+                        hint: 'Type the exact cube value and press Enter.'
+                    });
+                }
+            } else if (category === 'perc_frac') {
+                const { from, to } = ranges.perc_frac;
+                for (let k = from; k <= to; k++) {
+                    const exactPct = 100 / k;
+                    const roundedPctStr = parseFloat(exactPct.toFixed(2)).toString();
+                    const mixedStr = getMixedFractionPercentage(k);
+                    const isExactInteger = (100 % k === 0);
+
+                    // 1) Fraction to Percentage
+                    pool.push({
+                        category: 'perc_frac',
+                        subPrompt: `Convert Fraction to Percentage (1/${from} to 1/${to})`,
+                        prompt: `1/${k} = ____ %`,
+                        expectedType: 'percentage',
+                        denominator: k,
+                        exactValue: exactPct,
+                        displayAnswer: isExactInteger ? `${roundedPctStr}%` : `${roundedPctStr}% (or ${mixedStr})`,
+                        explanation: `1/${k} × 100% = ${isExactInteger ? roundedPctStr + '%' : roundedPctStr + '% (' + mixedStr + ')'}`,
+                        hint: 'Enter percentage (e.g., 16.67 or 25). Standard rounding up to 2 decimal places or mixed fraction (16 2/3) is accepted.'
+                    });
+
+                    // 2) Percentage to Fraction
+                    const promptLabel = isExactInteger
+                        ? `${roundedPctStr}% = ? (in fraction)`
+                        : `${roundedPctStr}% (${mixedStr}) = ?`;
+
+                    pool.push({
+                        category: 'perc_frac',
+                        subPrompt: `Convert Percentage to Fraction (1/${from} to 1/${to})`,
+                        prompt: promptLabel,
+                        expectedType: 'fraction',
+                        numerator: 1,
+                        denominator: k,
+                        displayAnswer: `1/${k}`,
+                        explanation: `${isExactInteger ? roundedPctStr + '%' : roundedPctStr + '% (' + mixedStr + ')'} = 1/${k}`,
+                        hint: 'Enter your answer as a fraction in p/q format (for example: 1/6 or 1/12).'
+                    });
+                }
+            }
+
+            return pool;
+        }
+
+        /**
+         * Fisher-Yates array shuffle
+         */
+        function shuffleArray(arr) {
+            const copy = [...arr];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
+
+        /**
+         * Build balanced randomized question list across all selected categories
+         */
+        function generateQuestionSet(ranges, totalQuestions, selectedCategories) {
+            const pools = {};
+            selectedCategories.forEach(cat => {
+                pools[cat] = shuffleArray(buildCategoryPool(cat, ranges));
+            });
+
+            const questions = [];
+            const catCount = selectedCategories.length;
+
+            for (let i = 0; i < totalQuestions; i++) {
+                const cat = selectedCategories[i % catCount];
+                let catPool = pools[cat];
+                if (catPool.length === 0) {
+                    pools[cat] = shuffleArray(buildCategoryPool(cat, ranges));
+                    catPool = pools[cat];
+                }
+                const picked = { ...catPool.pop() };
+                picked.userAnswer = '';
+                picked.isCorrect = false;
+                picked.skipped = false;
+                picked.answered = false;
+                questions.push(picked);
+            }
+
+            return shuffleArray(questions);
+        }
+
+        /**
+         * Validate configuration and launch the Mock Drill
+         */
+        function startQuiz() {
+            hideSetupError();
+
+            const selectedCategories = [];
+            if (document.getElementById('catMultiplication').checked) selectedCategories.push('multiplication');
+            if (document.getElementById('catSquares').checked) selectedCategories.push('squares');
+            if (document.getElementById('catCubes').checked) selectedCategories.push('cubes');
+            if (document.getElementById('catPercFrac').checked) selectedCategories.push('perc_frac');
+
+            if (selectedCategories.length === 0) {
+                showSetupError('Please check at least one category checkbox to start the mock drill.');
+                return;
+            }
+
+            const ranges = {
+                multiplication: {
+                    from: parseInt(document.getElementById('multFrom').value, 10),
+                    to: parseInt(document.getElementById('multTo').value, 10),
+                    m: parseInt(document.getElementById('multM').value, 10)
+                },
+                squares: {
+                    from: parseInt(document.getElementById('sqFrom').value, 10),
+                    to: parseInt(document.getElementById('sqTo').value, 10)
+                },
+                cubes: {
+                    from: parseInt(document.getElementById('cubeFrom').value, 10),
+                    to: parseInt(document.getElementById('cubeTo').value, 10)
+                },
+                perc_frac: {
+                    from: parseInt(document.getElementById('pfFrom').value, 10),
+                    to: parseInt(document.getElementById('pfTo').value, 10)
+                }
+            };
+
+            // Validate selected category ranges
+            if (selectedCategories.includes('multiplication')) {
+                const { from, to, m } = ranges.multiplication;
+                if (isNaN(from) || isNaN(to) || from < 1 || to > 500 || from > to) {
+                    showSetupError('Multiplication Table: Please enter a valid "From" and "To" range (From ≤ To, between 1 and 500).');
+                    return;
+                }
+                if (isNaN(m) || m < 2 || m > 200) {
+                    showSetupError('Multiplication Table: Please enter a valid "Multiply up to (m)" value (between 2 and 200).');
+                    return;
+                }
+            }
+
+            if (selectedCategories.includes('squares')) {
+                const { from, to } = ranges.squares;
+                if (isNaN(from) || isNaN(to) || from < 1 || to > 500 || from > to) {
+                    showSetupError('Squares: Please enter a valid "From" and "To" range (From ≤ To, between 1 and 500).');
+                    return;
+                }
+            }
+
+            if (selectedCategories.includes('cubes')) {
+                const { from, to } = ranges.cubes;
+                if (isNaN(from) || isNaN(to) || from < 1 || to > 200 || from > to) {
+                    showSetupError('Cubes: Please enter a valid "From" and "To" range (From ≤ To, between 1 and 200).');
+                    return;
+                }
+            }
+
+            if (selectedCategories.includes('perc_frac')) {
+                const { from, to } = ranges.perc_frac;
+                if (isNaN(from) || isNaN(to) || from < 2 || to > 200 || from > to) {
+                    showSetupError('Percentage ↔ Fraction: Please enter a valid denominator "From" and "To" range (From ≤ To, between 2 and 200).');
+                    return;
+                }
+            }
+
+            const rawTotal = parseInt(document.getElementById('inputTotalQuestions').value, 10);
+            if (isNaN(rawTotal) || rawTotal < 1 || rawTotal > 300) {
+                showSetupError('Please enter a valid Total Questions count (between 1 and 300).');
+                return;
+            }
+
+            quizState.ranges = ranges;
+            quizState.totalQuestions = rawTotal;
+            quizState.selectedCategories = selectedCategories;
+            quizState.questions = generateQuestionSet(ranges, rawTotal, selectedCategories);
+            quizState.currentIndex = 0;
+            quizState.isSubmitted = false;
+            quizState.correctCount = 0;
+            quizState.wrongCount = 0;
+            quizState.elapsedSeconds = 0;
+
+            // Switch visible screens
+            document.getElementById('setupScreen').classList.add('hidden');
+            document.getElementById('reviewScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.remove('hidden');
+
+            startTimer();
+            renderCurrentQuestion();
+        }
+
+        /**
+         * Timer management
+         */
+        function startTimer() {
+            stopTimer();
+            quizState.startTime = Date.now();
+            document.getElementById('liveTimer').textContent = '00:00';
+            quizState.timerInterval = setInterval(() => {
+                quizState.elapsedSeconds = Math.floor((Date.now() - quizState.startTime) / 1000);
+                document.getElementById('liveTimer').textContent = formatDuration(quizState.elapsedSeconds);
+            }, 500);
+        }
+
+        function stopTimer() {
+            if (quizState.timerInterval) {
+                clearInterval(quizState.timerInterval);
+                quizState.timerInterval = null;
+            }
+        }
+
+        function formatDuration(totalSec) {
+            const mins = Math.floor(totalSec / 60);
+            const secs = totalSec % 60;
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        /**
+         * Helper to format a category's configured range string
+         */
+        function getCategoryRangeLabel(catKey) {
+            const r = quizState.ranges;
+            if (catKey === 'multiplication') return `${r.multiplication.from}–${r.multiplication.to} × up to ${r.multiplication.m}`;
+            if (catKey === 'squares') return `${r.squares.from}² to ${r.squares.to}²`;
+            if (catKey === 'cubes') return `${r.cubes.from}³ to ${r.cubes.to}³`;
+            if (catKey === 'perc_frac') return `1/${r.perc_frac.from} to 1/${r.perc_frac.to}`;
+            return '';
+        }
+
+        /**
+         * Render current question onto the Quiz UI
+         */
+        function renderCurrentQuestion() {
+            const q = quizState.questions[quizState.currentIndex];
+            const total = quizState.questions.length;
+            const currentNum = quizState.currentIndex + 1;
+
+            quizState.isSubmitted = false;
+
+            // Update counters and progress bar
+            document.getElementById('currentQNum').textContent = currentNum;
+            document.getElementById('totalQNum').textContent = total;
+            document.getElementById('liveCorrectCount').textContent = quizState.correctCount;
+            document.getElementById('liveWrongCount').textContent = quizState.wrongCount;
+
+            const progressPct = Math.round(((currentNum - 1) / total) * 100);
+            document.getElementById('quizProgressBar').style.width = `${Math.max(4, progressPct)}%`;
+
+            // Update category badge
+            const catMeta = CATEGORIES[q.category];
+            const badgeEl = document.getElementById('questionCategoryBadge');
+            badgeEl.textContent = `${catMeta.shortBadge} (${getCategoryRangeLabel(q.category)})`;
+            badgeEl.className = `inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${catMeta.badgeClasses}`;
+
+            // Update question text and hints
+            document.getElementById('questionSubPrompt').textContent = q.subPrompt;
+            document.getElementById('questionText').textContent = q.prompt;
+            document.getElementById('inputFormatHint').textContent = q.hint;
+
+            // Reset input field
+            const inputEl = document.getElementById('answerInput');
+            inputEl.value = '';
+            inputEl.disabled = false;
+            inputEl.className = 'w-full px-5 py-4 rounded-xl font-mono text-2xl sm:text-3xl font-bold text-center bg-white dark:bg-slate-950 border-2 border-slate-300 dark:border-slate-700 focus:border-indigo-600 dark:focus:border-indigo-500 focus:outline-none focus:ring-4 focus:ring-indigo-500/15 text-slate-900 dark:text-white transition-all';
+
+            if (q.expectedType === 'fraction') {
+                inputEl.placeholder = 'e.g. 1/6';
+            } else if (q.expectedType === 'percentage') {
+                inputEl.placeholder = 'e.g. 16.67';
+            } else {
+                inputEl.placeholder = 'Type answer...';
+            }
+
+            // Hide feedback banner and toggle buttons
+            document.getElementById('feedbackBanner').classList.add('hidden');
+            document.getElementById('submitAnswerBtn').classList.remove('hidden');
+            document.getElementById('skipQuestionBtn').classList.remove('hidden');
+            document.getElementById('nextQuestionBtn').classList.add('hidden');
+
+            // Update Next button text if on final question
+            const nextBtnText = document.getElementById('nextBtnText');
+            if (currentNum === total) {
+                nextBtnText.textContent = 'View Final Report →';
+            } else {
+                nextBtnText.textContent = 'Next Question →';
+            }
+
+            setTimeout(() => inputEl.focus(), 20);
+        }
+
+        /**
+         * Evaluate user's typed text answer against the question's expected answer
+         */
+        function evaluateUserAnswer(rawInput, question) {
+            const cleaned = rawInput.trim();
+            if (!cleaned) return false;
+
+            if (question.expectedType === 'integer') {
+                const normalized = cleaned.replace(/,/g, '');
+                if (!/^-?\d+$/.test(normalized)) return false;
+                return parseInt(normalized, 10) === question.exactValue;
+            }
+
+            if (question.expectedType === 'percentage') {
+                const noPct = cleaned.replace(/%/g, '').trim();
+
+                // Check mixed fraction like "14 2/7" or "16 2/3"
+                const mixedMatch = noPct.match(/^(\d+)\s+(\d+)\s*\/\s*(\d+)$/);
+                if (mixedMatch) {
+                    const whole = parseInt(mixedMatch[1], 10);
+                    const num = parseInt(mixedMatch[2], 10);
+                    const den = parseInt(mixedMatch[3], 10);
+                    if (den !== 0) {
+                        const val = whole + (num / den);
+                        return Math.abs(val - question.exactValue) <= 0.06;
+                    }
+                }
+
+                // Check simple fraction percentage like "100/7"
+                const simpleFracMatch = noPct.match(/^(\d+)\s*\/\s*(\d+)$/);
+                if (simpleFracMatch) {
+                    const num = parseInt(simpleFracMatch[1], 10);
+                    const den = parseInt(simpleFracMatch[2], 10);
+                    if (den !== 0) {
+                        const val = num / den;
+                        return Math.abs(val - question.exactValue) <= 0.06;
+                    }
+                }
+
+                // Check standard decimal / integer percentage (e.g. 14.28, 14.29, 16.67)
+                const parsed = parseFloat(noPct);
+                if (isNaN(parsed)) return false;
+
+                return Math.abs(parsed - question.exactValue) <= 0.06;
+            }
+
+            if (question.expectedType === 'fraction') {
+                const fracMatch = cleaned.match(/^(\d+)\s*\/\s*(\d+)$/);
+                if (!fracMatch) return false;
+                const num = parseInt(fracMatch[1], 10);
+                const den = parseInt(fracMatch[2], 10);
+                if (den === 0) return false;
+
+                const g = gcd(num, den);
+                return (num / g === question.numerator) && (den / g === question.denominator);
+            }
+
+            return false;
+        }
+
+        /**
+         * Handle Answer Submission
+         */
+        function handleSubmitAnswer() {
+            if (quizState.isSubmitted) {
+                handleNextQuestion();
+                return;
+            }
+
+            const inputEl = document.getElementById('answerInput');
+            const rawVal = inputEl.value.trim();
+
+            if (rawVal === '') {
+                inputEl.classList.remove('animate-shake');
+                void inputEl.offsetWidth;
+                inputEl.classList.add('animate-shake');
+                inputEl.focus();
+                return;
+            }
+
+            processSubmission(rawVal, false);
+        }
+
+        /**
+         * Handle "Don't Know / Skip" button
+         */
+        function handleSkipQuestion() {
+            if (quizState.isSubmitted) return;
+            processSubmission('(Skipped)', true);
+        }
+
+        /**
+         * Core grading & instant feedback UI update
+         */
+        function processSubmission(userRawText, wasSkipped) {
+            const q = quizState.questions[quizState.currentIndex];
+            const isCorrect = !wasSkipped && evaluateUserAnswer(userRawText, q);
+
+            quizState.isSubmitted = true;
+            q.userAnswer = userRawText;
+            q.isCorrect = isCorrect;
+            q.skipped = wasSkipped;
+            q.answered = true;
+
+            if (isCorrect) {
+                quizState.correctCount++;
+            } else {
+                quizState.wrongCount++;
+            }
+
+            document.getElementById('liveCorrectCount').textContent = quizState.correctCount;
+            document.getElementById('liveWrongCount').textContent = quizState.wrongCount;
+
+            const inputEl = document.getElementById('answerInput');
+            inputEl.disabled = true;
+
+            const feedbackBanner = document.getElementById('feedbackBanner');
+            const feedbackIconBox = document.getElementById('feedbackIconBox');
+            const feedbackTitle = document.getElementById('feedbackTitle');
+            const feedbackDetail = document.getElementById('feedbackDetail');
+
+            feedbackBanner.classList.remove('hidden');
+
+            if (isCorrect) {
+                inputEl.className = 'w-full px-5 py-4 rounded-xl font-mono text-2xl sm:text-3xl font-bold text-center bg-emerald-50/50 dark:bg-emerald-950/30 border-2 border-emerald-500 text-emerald-700 dark:text-emerald-300 transition-all';
+                feedbackBanner.className = 'mt-5 p-4 rounded-xl border-2 bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 animate-fade-in';
+                feedbackIconBox.className = 'w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-lg shrink-0 mt-0.5';
+                feedbackIconBox.textContent = '✓';
+                feedbackTitle.textContent = 'Correct! Well done.';
+                feedbackDetail.textContent = `Solution: ${q.explanation}`;
+            } else {
+                inputEl.className = 'w-full px-5 py-4 rounded-xl font-mono text-2xl sm:text-3xl font-bold text-center bg-rose-50/50 dark:bg-rose-950/30 border-2 border-rose-500 text-rose-700 dark:text-rose-300 transition-all';
+                feedbackBanner.className = 'mt-5 p-4 rounded-xl border-2 bg-rose-50 dark:bg-rose-950/60 border-rose-300 dark:border-rose-800 text-rose-900 dark:text-rose-200 animate-fade-in';
+                feedbackIconBox.className = 'w-8 h-8 rounded-lg bg-rose-600 text-white flex items-center justify-center font-bold text-lg shrink-0 mt-0.5';
+                feedbackIconBox.textContent = '✗';
+                feedbackTitle.textContent = `${wasSkipped ? 'Skipped!' : 'Wrong Answer!'} Correct Answer: ${q.displayAnswer}`;
+                feedbackDetail.textContent = `Your answer: ${userRawText}  |  ${q.explanation}`;
+            }
+
+            document.getElementById('submitAnswerBtn').classList.add('hidden');
+            document.getElementById('skipQuestionBtn').classList.add('hidden');
+            const nextBtn = document.getElementById('nextQuestionBtn');
+            nextBtn.classList.remove('hidden');
+            nextBtn.focus();
+        }
+
+        /**
+         * Advance to the next question or finish the quiz
+         */
+        function handleNextQuestion() {
+            if (!quizState.isSubmitted) return;
+
+            if (quizState.currentIndex + 1 < quizState.questions.length) {
+                quizState.currentIndex++;
+                renderCurrentQuestion();
+            } else {
+                showFinalReviewScreen();
+            }
+        }
+
+        /**
+         * Allow user to finish early and view their report for questions answered so far
+         */
+        function finishQuizEarly() {
+            showFinalReviewScreen();
+        }
+
+        /**
+         * Keyboard shortcut listener: Enter submits answer, and pressing Enter again advances
+         */
+        document.addEventListener('keydown', (e) => {
+            const quizVisible = !document.getElementById('quizScreen').classList.contains('hidden');
+            if (!quizVisible) return;
+
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                if (!quizState.isSubmitted) {
+                    handleSubmitAnswer();
+                } else {
+                    handleNextQuestion();
+                }
+            }
+        });
+
+        /**
+         * Render the Detailed End-of-Quiz Review Screen
+         */
+        function showFinalReviewScreen() {
+            stopTimer();
+            document.getElementById('quizProgressBar').style.width = '100%';
+
+            document.getElementById('setupScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.add('hidden');
+            document.getElementById('reviewScreen').classList.remove('hidden');
+
+            const answeredQuestions = quizState.questions.filter(q => q.answered);
+            const totalAttempted = answeredQuestions.length;
+            const totalCorrect = quizState.correctCount;
+            const totalWrong = quizState.wrongCount;
+            const overallAccuracy = totalAttempted > 0 ? Math.round((totalCorrect / totalAttempted) * 100) : 0;
+
+            const activeRangeSummaries = quizState.selectedCategories.map(catKey => {
+                return `${CATEGORIES[catKey].name}: ${getCategoryRangeLabel(catKey)}`;
+            }).join(' • ');
+
+            document.getElementById('reviewConfigSummary').textContent =
+                `${activeRangeSummaries} (${totalAttempted} of ${quizState.questions.length} answered)`;
+
+            document.getElementById('summaryTotal').textContent = totalAttempted;
+            document.getElementById('summaryCorrect').textContent = totalCorrect;
+            document.getElementById('summaryWrong').textContent = totalWrong;
+            document.getElementById('summaryAccuracy').textContent = `${overallAccuracy}%`;
+            document.getElementById('summaryTime').textContent = formatDuration(quizState.elapsedSeconds);
+
+            const tbodyCat = document.getElementById('categoryBreakdownBody');
+            tbodyCat.innerHTML = '';
+
+            ['multiplication', 'squares', 'cubes', 'perc_frac'].forEach(catKey => {
+                const meta = CATEGORIES[catKey];
+                const wasSelected = quizState.selectedCategories.includes(catKey);
+                const catQuestions = answeredQuestions.filter(q => q.category === catKey);
+                const asked = catQuestions.length;
+                const correct = catQuestions.filter(q => q.isCorrect).length;
+                const skipped = catQuestions.filter(q => q.skipped).length;
+                const wrong = asked - correct;
+                const acc = asked > 0 ? Math.round((correct / asked) * 100) : 0;
+                const rangeText = getCategoryRangeLabel(catKey);
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors';
+
+                if (!wasSelected) {
+                    tr.innerHTML = `
+                        <td class="py-3.5 px-4 font-semibold text-slate-400 dark:text-slate-500">
+                            ${meta.name}
+                            <span class="ml-2 text-xs font-normal px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-400">Not Selected</span>
+                        </td>
+                        <td class="py-3.5 px-4 text-center font-mono text-slate-400">0</td>
+                        <td class="py-3.5 px-4 text-center font-mono text-slate-400">0</td>
+                        <td class="py-3.5 px-4 text-center font-mono text-slate-400">0</td>
+                        <td class="py-3.5 px-4 text-center font-mono text-slate-400">0</td>
+                        <td class="py-3.5 px-4 text-xs text-slate-400">—</td>
+                    `;
+                } else {
+                    const barColor = acc >= 80 ? 'bg-emerald-500' : (acc >= 50 ? 'bg-amber-500' : 'bg-rose-500');
+                    tr.innerHTML = `
+                        <td class="py-3.5 px-4">
+                            <div class="font-bold text-slate-900 dark:text-white flex items-center">
+                                <span class="inline-block w-2 h-2 rounded-full mr-2 ${barColor}"></span>
+                                <span>${meta.name}</span>
+                            </div>
+                            <span class="text-xs font-mono text-slate-500 dark:text-slate-400 ml-4">Range: ${rangeText}</span>
+                        </td>
+                        <td class="py-3.5 px-4 text-center font-mono font-bold">${asked}</td>
+                        <td class="py-3.5 px-4 text-center font-mono font-bold text-emerald-600 dark:text-emerald-400">${correct}</td>
+                        <td class="py-3.5 px-4 text-center font-mono font-bold text-rose-600 dark:text-rose-400">${wrong}</td>
+                        <td class="py-3.5 px-4 text-center font-mono font-bold text-amber-600 dark:text-amber-400">${skipped}</td>
+                        <td class="py-3.5 px-4">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-24 sm:w-32 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                                    <div class="h-full ${barColor}" style="width: ${asked > 0 ? acc : 0}%"></div>
+                                </div>
+                                <span class="font-mono text-xs font-bold">${asked > 0 ? acc + '%' : 'N/A'}</span>
+                            </div>
+                        </td>
+                    `;
+                }
+                tbodyCat.appendChild(tr);
+            });
+
+            filterQuestionLog('all');
+        }
+
+        /**
+         * Filter and render the Question-by-Question Review Log
+         */
+        function filterQuestionLog(filterType) {
+            quizState.currentLogFilter = filterType;
+
+            const btnMap = {
+                all: document.getElementById('filterAllBtn'),
+                wrong: document.getElementById('filterWrongBtn'),
+                correct: document.getElementById('filterCorrectBtn')
+            };
+            Object.keys(btnMap).forEach(k => {
+                if (k === filterType) {
+                    btnMap[k].className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm transition-all cursor-pointer';
+                } else {
+                    btnMap[k].className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all cursor-pointer';
+                }
+            });
+
+            const tbodyLog = document.getElementById('questionLogBody');
+            tbodyLog.innerHTML = '';
+
+            const answeredList = quizState.questions
+                .map((q, idx) => ({ ...q, qNum: idx + 1 }))
+                .filter(q => q.answered)
+                .filter(q => {
+                    if (filterType === 'wrong') return !q.isCorrect;
+                    if (filterType === 'correct') return q.isCorrect;
+                    return true;
+                });
+
+            if (answeredList.length === 0) {
+                const emptyTr = document.createElement('tr');
+                emptyTr.innerHTML = `
+                    <td colspan="6" class="py-8 text-center text-slate-400 dark:text-slate-500 text-sm">
+                        No questions match the selected filter.
+                    </td>
+                `;
+                tbodyLog.appendChild(emptyTr);
+                return;
+            }
+
+            answeredList.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors';
+
+                const meta = CATEGORIES[item.category];
+                const statusBadge = item.isCorrect
+                    ? '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300">✓ Correct</span>'
+                    : (item.skipped
+                        ? '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300">⏭ Skipped</span>'
+                        : '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300">✗ Wrong</span>');
+
+                const userAnsColor = item.isCorrect
+                    ? 'text-emerald-600 dark:text-emerald-400 font-bold'
+                    : 'text-rose-600 dark:text-rose-400 font-bold line-through';
+
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-mono text-xs text-slate-400">${item.qNum}</td>
+                    <td class="py-3 px-4 text-xs font-semibold text-slate-600 dark:text-slate-300">${meta.name}</td>
+                    <td class="py-3 px-4 font-mono font-bold text-slate-900 dark:text-white">${item.prompt}</td>
+                    <td class="py-3 px-4 font-mono ${userAnsColor}">${item.userAnswer}</td>
+                    <td class="py-3 px-4 font-mono font-bold text-emerald-600 dark:text-emerald-400">${item.displayAnswer}</td>
+                    <td class="py-3 px-4 text-center">${statusBadge}</td>
+                `;
+                tbodyLog.appendChild(tr);
+            });
+        }
+
+        /**
+         * Retry drill with identical settings
+         */
+        function retrySameSettings() {
+            startQuiz();
+        }
+
+        /**
+         * Return to the initial Setup screen to adjust ranges or categories
+         */
+        function returnToSetup() {
+            stopTimer();
+            document.getElementById('quizScreen').classList.add('hidden');
+            document.getElementById('reviewScreen').classList.add('hidden');
+            document.getElementById('setupScreen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
