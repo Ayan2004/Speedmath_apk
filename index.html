@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Math Mock Drill Hub — Developed by Ayan</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .bg-grid-pattern {
+            background-color: #090d16;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.14) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.14) 0px, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.10) 0px, transparent 50%),
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+        }
+    </style>
+</head>
+<body class="bg-grid-pattern text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-sky-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <header class="w-full border-b border-slate-800/80 bg-slate-900/75 backdrop-blur-md sticky top-0 z-30">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 via-indigo-500 to-violet-600 flex items-center justify-center shadow-lg shadow-sky-500/20 border border-white/10">
+                    <i class="fa-solid fa-bolt-lightning text-white text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-white flex items-center gap-2">
+                        SpeedMath <span class="text-sky-400">Portal</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">All-in-One Competitive &amp; Banking Exam Calculation Suite</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-slate-800/90 to-slate-800/60 border border-sky-500/30 shadow-sm flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="text-xs font-medium text-slate-300">
+                        Developed by <strong class="text-sky-400 font-bold tracking-wide">Ayan</strong>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow w-full max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex flex-col justify-center space-y-8">
+
+        <!-- Hero Banner -->
+        <section class="p-6 sm:p-9 rounded-3xl bg-slate-900/90 border border-slate-800 shadow-2xl relative overflow-hidden">
+            <div class="absolute -right-12 -top-12 w-56 h-56 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-12 -bottom-12 w-56 h-56 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="relative z-10 max-w-3xl space-y-3">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold bg-sky-500/15 text-sky-300 border border-sky-500/30">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>2 Dedicated Practice Engines • Pure Direct-Input Mental Math</span>
+                </div>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
+                    Choose Your Speed Math Mock Drill
+                </h2>
+                <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+                    Select either module below to launch its dedicated training interface. Both modules use direct keyboard input with zero multiple-choice guesswork, instant answer verification, live timers, and detailed category-wise accuracy reports.
+                </p>
+            </div>
+        </section>
+
+        <!-- Two Main Drill Cards Linking to Each Page Separately -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+
+            <!-- CARD 1: ADDITION & SUBTRACTION DRILL -->
+            <div class="group rounded-3xl bg-slate-900/95 border-2 border-sky-500/50 hover:border-sky-400 shadow-xl shadow-sky-950/20 p-6 sm:p-8 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1">
+                <div class="space-y-5">
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-sky-500/20 to-indigo-500/20 border border-sky-500/40 flex items-center justify-center text-sky-400 text-2xl font-extrabold shadow-inner">
+                            <i class="fa-solid fa-plus-minus"></i>
+                        </div>
+                        <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-sky-500/15 text-sky-300 border border-sky-500/30">
+                            Module 01
+                        </span>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl sm:text-2xl font-extrabold text-white group-hover:text-sky-300 transition-colors">
+                            Addition &amp; Subtraction Drill
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-400 mt-1.5 leading-relaxed">
+                            Master high-speed summation, carry-overs, and multi-number chain subtraction with customizable operand counts and digit difficulty.
+                        </p>
+                    </div>
+
+                    <!-- Feature Pills -->
+                    <div class="space-y-2.5 pt-2 border-t border-slate-800/90 text-xs text-slate-300">
+                        <div class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-check text-emerald-400"></i>
+                            <span><strong>Digit Modes:</strong> 1-Digit, 2-Digit, 3-Digit &amp; Mix (2 &amp; 3 Digit)</span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-check text-emerald-400"></i>
+                            <span><strong>Multi-Number Chains:</strong> Add or subtract <strong>2 to 20 numbers (N)</strong></span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-check text-emerald-400"></i>
+                            <span><strong>Smart Controls:</strong> Avoid negative answers toggle &amp; Vertical/Horizontal layout</span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-check text-emerald-400"></i>
+                            <span><strong>Analytics:</strong> Sound effects, on-screen keypad &amp; wrong-only retry mode</span>
+                        </div>
+                    </div>
+
+                    <!-- Preview Sample Expression -->
+                    <div class="p-3 rounded-2xl bg-slate-950/90 border border-slate-800 flex items-center justify-between font-mono text-xs">
+                        <span class="text-slate-400">Sample Drill:</span>
+                        <span class="text-sky-300 font-bold">648 + 75 + 319 = ?</span>
+                    </div>
+                </div>
+
+                <div class="pt-6 mt-6 border-t border-slate-800/80">
+                    <a href="addition-subtraction.html"
+                        class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white font-extrabold text-sm sm:text-base shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2.5 transition-all">
+                        <span>Open Addition &amp; Subtraction Page</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-sm"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- CARD 2: CUSTOM QUIZ ENGINE (TABLES, SQUARES, CUBES, % <-> FRACTION) -->
+            <div class="group rounded-3xl bg-slate-900/95 border-2 border-indigo-500/50 hover:border-indigo-400 shadow-xl shadow-indigo-950/20 p-6 sm:p-8 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1">
+                <div class="space-y-5">
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-violet-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 text-2xl font-extrabold font-mono shadow-inner">
+                            ∑
+                        </div>
+                        <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
+                            Module 02
+                        </span>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl sm:text-2xl font-extrabold text-white group-hover:text-indigo-300 transition-colors">
+                            Custom Range Quiz Engine
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-400 mt-1.5 leading-relaxed">
+                            Practice Multiplication Tables, Squares, Cubes, and Banking Exam Percentage ↔ Fraction conversions with custom From/To ranges.
+                        </p>
+                    </div>
+
+                    <!-- Feature Pills -->
+                    <div class="space-y-2.5 pt-2 border-t border-slate-800/90 text-xs text-slate-300">
+                        <div class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-check text-emerald-400"></i>
+                            <span><strong>Multiplication Tables:</strong> Custom From/To range multiplied up to <strong>m</strong> (×10, ×15, ×20)</span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-check text-emerald-400"></i>
+                            <span><strong>Squares (n²) &amp; Cubes (n³):</strong> Set exact From/To number boundaries</span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-check text-emerald-400"></i>
+                            <span><strong>Banking % ↔ Fraction:</strong> High-yield <code class="font-mono text-emerald-300">p/q</code> multiples (3/8, 5/6, 2/7–6/7, 5/12)</span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-check text-emerald-400"></i>
+                            <span><strong>Built-in Reference:</strong> Interactive Banking % Chart modal &amp; Light/Dark theme</span>
+                        </div>
+                    </div>
+
+                    <!-- Preview Sample Expression -->
+                    <div class="p-3 rounded-2xl bg-slate-950/90 border border-slate-800 flex items-center justify-between font-mono text-xs">
+                        <span class="text-slate-400">Sample Drill:</span>
+                        <span class="text-indigo-300 font-bold">18 × 14 = ? &nbsp;|&nbsp; 3/8 = ____%</span>
+                    </div>
+                </div>
+
+                <div class="pt-6 mt-6 border-t border-slate-800/80">
+                    <a href="custom-quiz-engine.html"
+                        class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-extrabold text-sm sm:text-base shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2.5 transition-all">
+                        <span>Open Tables, Powers &amp; % Page</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-sm"></i>
+                    </a>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Quick Tips Bar -->
+        <section class="p-5 sm:p-6 rounded-2xl bg-slate-900/80 border border-slate-800/90 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+            <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center font-bold shrink-0">
+                    <i class="fa-solid fa-keyboard"></i>
+                </span>
+                <span>
+                    <strong class="text-slate-200">Pro Speed Tip:</strong> Inside both drill pages, type your answer and press <kbd class="px-2 py-0.5 rounded bg-slate-800 text-sky-300 font-mono border border-slate-700">Enter ↵</kbd> to submit and advance without touching the mouse.
+                </span>
+            </div>
+            <div class="font-mono text-slate-400 shrink-0">
+                Files: <span class="text-slate-200">addition-subtraction.html</span> • <span class="text-slate-200">custom-quiz-engine.html</span>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full border-t border-slate-800/80 bg-slate-950/80 backdrop-blur-md py-5 mt-auto">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+                <i class="fa-solid fa-bolt text-sky-400"></i>
+                <span>SpeedMath Mock Drill Suite • Banking &amp; Competitive Exam Trainer</span>
+            </div>
+            <div class="text-xs sm:text-sm font-medium text-slate-300 flex items-center gap-2">
+                <span>Crafted with precision •</span>
+                <span class="px-3 py-1 rounded-lg bg-sky-500/10 border border-sky-500/30 text-sky-300 font-bold">
+                    Developed by Ayan
+                </span>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
