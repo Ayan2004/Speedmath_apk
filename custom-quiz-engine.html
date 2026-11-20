@@ -77,9 +77,9 @@
                 </a>
                 <button id="openCheatSheetBtn" type="button" onclick="toggleCheatSheetModal(true)"
                     class="px-3 py-2 rounded-xl border border-emerald-200 dark:border-emerald-800/70 bg-emerald-50/80 dark:bg-emerald-950/50 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
-                    title="View Banking Exam Percentage-Fraction Table">
+                    title="View Banking Clerk Exam Percentage-Fraction Table">
                     <span>📋</span>
-                    <span class="hidden sm:inline">Banking % Chart</span>
+                    <span class="hidden sm:inline">Clerk % Chart</span>
                 </button>
 
                 <button id="themeToggleBtn" type="button" onclick="toggleTheme()" 
@@ -114,10 +114,10 @@
             <div class="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3 bg-slate-50/70 dark:bg-slate-900">
                 <div>
                     <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 mb-1">
-                        🏦 High-Frequency Banking Exam Reference
+                        🏦 IBPS / SBI / RRB Clerk Exam Reference
                     </span>
                     <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white">
-                        Important Percentage ↔ Fraction Conversions (<span class="font-mono">p/q</span>)
+                        Most Common Banking Clerk % ↔ Fraction Chart (<span class="font-mono">p/q</span>)
                     </h3>
                 </div>
                 <button type="button" onclick="toggleCheatSheetModal(false)"
@@ -128,7 +128,7 @@
             </div>
             <div class="p-4 sm:p-6 overflow-y-auto space-y-5 text-xs sm:text-sm">
                 <p class="text-slate-600 dark:text-slate-400">
-                    In IBPS, SBI, RBI, and SSC exams, questions frequently test <strong>multiple-numerator fractions</strong> (<code class="font-mono font-bold text-emerald-600 dark:text-emerald-400">2/3, 3/8, 5/8, 7/8, 5/6, 2/7–6/7, 5/12, 3/16</code>) derived from base unit fractions (<code class="font-mono">1/n</code>).
+                    Curated strictly for <strong>Banking Clerk exams (IBPS Clerk, SBI Clerk, RRB Clerk)</strong> Simplification &amp; DI — focuses only on the highest-repeat fractions (<code class="font-mono font-bold text-emerald-600 dark:text-emerald-400">2/3, 3/8, 5/8, 7/8, 5/6, 2/7, 3/7, 5/12, 7/12, 3/16</code>) and excludes obscure PO-level fractions.
                 </p>
                 <div id="cheatSheetGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     <!-- Populated dynamically via JS -->
@@ -179,7 +179,7 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Category 1: Multiplication Table (From, To, and exclusive m option) -->
+                        <!-- Category 1: Multiplication Table (Table From/To × Multiply From/To) -->
                         <div class="group relative flex flex-col justify-between p-5 rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all has-[:checked]:border-indigo-600 dark:has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50/30 dark:has-[:checked]:bg-indigo-950/20">
                             <div>
                                 <!-- Clickable Header for Checkbox -->
@@ -190,11 +190,11 @@
                                         <div class="flex flex-wrap items-center justify-between gap-2">
                                             <span class="font-bold text-base text-slate-900 dark:text-white">Multiplication Table</span>
                                             <span id="previewMult" class="px-2.5 py-0.5 text-xs font-mono font-bold rounded-full bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800/60">
-                                                Tables 11–20 × up to 10
+                                                Tables 11–20 × (2–10)
                                             </span>
                                         </div>
                                         <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                                            Practice tables from a custom range multiplied up to <code class="font-mono font-semibold">m</code>.
+                                            Practice tables from a custom range multiplied by a custom <code class="font-mono font-semibold">From–To</code> multiplier range.
                                         </p>
                                     </div>
                                 </label>
@@ -214,31 +214,43 @@
                                         </div>
                                     </div>
 
-                                    <!-- Exclusive m (Multiply up to) option with 10 / 15 / 20 quick chips -->
-                                    <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/60">
-                                        <div class="flex items-center justify-between gap-2 mb-1.5">
-                                            <label for="multM" class="text-xs font-bold text-slate-700 dark:text-slate-300">
-                                                Multiply up to (<span class="font-mono text-indigo-600 dark:text-indigo-400">m</span>)
-                                            </label>
-                                            <span class="text-[11px] text-slate-400 dark:text-slate-500 font-mono">n × m</span>
+                                    <!-- Custom Multiplier Range (Multiply From & Multiply To) with quick preset chips -->
+                                    <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/60 space-y-2.5">
+                                        <div class="flex items-center justify-between gap-2">
+                                            <span class="text-xs font-bold text-slate-700 dark:text-slate-300">
+                                                Multiply Range (<span class="font-mono text-indigo-600 dark:text-indigo-400">From – To</span>)
+                                            </span>
+                                            <span class="text-[11px] text-slate-400 dark:text-slate-500 font-mono">Table × Multiplier</span>
                                         </div>
-                                        <div class="flex items-center gap-2">
-                                            <input id="multM" type="number" min="2" max="200" value="10" oninput="updateRangePreviews()"
-                                                class="w-24 px-3 py-1.5 rounded-lg font-mono text-sm font-bold bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white">
-                                            <div class="flex-1 flex items-center gap-1.5">
-                                                <button type="button" onclick="setMultM(10)" id="multMChip10"
-                                                    class="flex-1 py-1.5 px-2 text-xs font-mono font-bold rounded-lg bg-indigo-600 text-white shadow-xs transition-all cursor-pointer">
-                                                    ×10
-                                                </button>
-                                                <button type="button" onclick="setMultM(15)" id="multMChip15"
-                                                    class="flex-1 py-1.5 px-2 text-xs font-mono font-bold rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-indigo-600 hover:text-white transition-all cursor-pointer">
-                                                    ×15
-                                                </button>
-                                                <button type="button" onclick="setMultM(20)" id="multMChip20"
-                                                    class="flex-1 py-1.5 px-2 text-xs font-mono font-bold rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-indigo-600 hover:text-white transition-all cursor-pointer">
-                                                    ×20
-                                                </button>
+                                        <div class="grid grid-cols-2 gap-2.5">
+                                            <div>
+                                                <label for="multByFrom" class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">Multiply From</label>
+                                                <input id="multByFrom" type="number" min="1" max="200" value="2" oninput="updateRangePreviews()"
+                                                    class="w-full px-3 py-1.5 rounded-lg font-mono text-sm font-bold bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white">
                                             </div>
+                                            <div>
+                                                <label for="multByTo" class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">Multiply To</label>
+                                                <input id="multByTo" type="number" min="1" max="200" value="10" oninput="updateRangePreviews()"
+                                                    class="w-full px-3 py-1.5 rounded-lg font-mono text-sm font-bold bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-900 dark:text-white">
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-4 gap-1.5 pt-0.5">
+                                            <button type="button" onclick="setMultByRange(2, 10)" id="multByChip_2_10"
+                                                class="py-1 px-1.5 text-[11px] font-mono font-bold rounded-lg bg-indigo-600 text-white shadow-xs transition-all cursor-pointer">
+                                                ×2–10
+                                            </button>
+                                            <button type="button" onclick="setMultByRange(2, 15)" id="multByChip_2_15"
+                                                class="py-1 px-1.5 text-[11px] font-mono font-bold rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-indigo-600 hover:text-white transition-all cursor-pointer">
+                                                ×2–15
+                                            </button>
+                                            <button type="button" onclick="setMultByRange(11, 20)" id="multByChip_11_20"
+                                                class="py-1 px-1.5 text-[11px] font-mono font-bold rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-indigo-600 hover:text-white transition-all cursor-pointer">
+                                                ×11–20
+                                            </button>
+                                            <button type="button" onclick="setMultByRange(2, 20)" id="multByChip_2_20"
+                                                class="py-1 px-1.5 text-[11px] font-mono font-bold rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-indigo-600 hover:text-white transition-all cursor-pointer">
+                                                ×2–20
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -327,11 +339,11 @@
                                         <div class="flex flex-wrap items-center justify-between gap-2">
                                             <span class="font-bold text-base text-slate-900 dark:text-white">Percentage ↔ Fraction</span>
                                             <span id="previewPercFrac" class="px-2.5 py-0.5 text-xs font-mono font-bold rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60">
-                                                Banking p/q (Denom 2–20)
+                                                Clerk p/q (Denom 2–20)
                                             </span>
                                         </div>
                                         <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                                            Vice-versa conversions including high-repeat banking numerators (<code class="font-mono font-semibold text-emerald-600 dark:text-emerald-400">2/3, 3/8, 5/8, 5/6, 2/7–6/7, 5/12</code>).
+                                            Strictly most common <strong>IBPS / SBI / RRB Clerk</strong> exam fractions only — no PO-level clutter (<code class="font-mono font-semibold text-emerald-600 dark:text-emerald-400">2/3, 3/8, 5/8, 7/8, 5/6, 2/7, 3/7, 5/12, 3/16</code>).
                                         </p>
                                     </div>
                                 </label>
@@ -350,31 +362,31 @@
                                         </div>
                                     </div>
 
-                                    <!-- Numerator Mode Selector: Banking Exam High-Yield (p/q) vs Unit Fractions (1/q) vs All Proper -->
+                                    <!-- Numerator Mode Selector: Banking Clerk High-Yield (p/q) vs Clerk Multiples (p>1) vs Unit Fractions (1/q) -->
                                     <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/60 space-y-2.5">
                                         <div class="flex items-center justify-between gap-2">
                                             <span class="text-xs font-bold text-slate-700 dark:text-slate-300">
-                                                Numerator Mode (<span class="font-mono text-emerald-600 dark:text-emerald-400">p/q</span>)
+                                                Numerator Mode (<span class="font-mono text-emerald-600 dark:text-emerald-400">Clerk p/q</span>)
                                             </span>
                                             <button type="button" onclick="toggleCheatSheetModal(true)"
                                                 class="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline cursor-pointer">
-                                                View Banking List →
+                                                View Clerk List →
                                             </button>
                                         </div>
                                         <div class="grid grid-cols-3 gap-1.5">
                                             <button type="button" id="pfModeChipBanking" onclick="setPfMode('banking')"
                                                 class="py-1.5 px-2 text-[11px] font-mono font-bold rounded-lg bg-indigo-600 text-white shadow-xs transition-all cursor-pointer"
-                                                title="Includes 1/n + high-frequency banking exam numerators like 2/3, 3/4, 2/5-4/5, 5/6, 2/7-6/7, 3/8, 5/8, 7/8, 5/12, 3/16, etc.">
-                                                🏦 Banking p/q
+                                                title="Only the most common IBPS/SBI/RRB Clerk fractions (1/2–1/12, 2/3, 3/4, 2/5–4/5, 5/6, 2/7, 3/7, 3/8, 5/8, 7/8, 2/9–5/9, 2/11, 3/11, 5/12, 7/12, 1/14, 1/15, 2/15, 1/16, 3/16, 1/20–9/20). Excludes PO-level fractions.">
+                                                🏦 Clerk p/q
                                             </button>
                                             <button type="button" id="pfModeChipMultiples" onclick="setPfMode('multiples_only')"
                                                 class="py-1.5 px-2 text-[11px] font-mono font-bold rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-indigo-600 hover:text-white transition-all cursor-pointer"
-                                                title="Focus strictly on non-unit banking exam fractions where numerator > 1 (e.g. 2/3, 3/8, 5/8, 7/8, 5/6, 2/7, 5/12)">
-                                                🔥 Only p&gt;1
+                                                title="Focus strictly on most common Clerk-level non-unit fractions where p > 1 (e.g. 2/3, 3/8, 5/8, 7/8, 5/6, 2/7, 3/7, 5/12, 7/12, 3/16)">
+                                                🔥 Clerk p&gt;1
                                             </button>
                                             <button type="button" id="pfModeChipUnit" onclick="setPfMode('unit')"
                                                 class="py-1.5 px-2 text-[11px] font-mono font-bold rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-indigo-600 hover:text-white transition-all cursor-pointer"
-                                                title="Practice only unit fractions 1/n">
+                                                title="Practice only unit fractions 1/q">
                                                 Unit (1/q)
                                             </button>
                                         </div>
@@ -587,7 +599,7 @@
                         </span>
                         <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Performance &amp; Category Report</h2>
                         <p id="reviewConfigSummary" class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 font-mono">
-                            Parameters: n = 20, m = 10
+                            Custom Range Configuration Summary
                         </p>
                     </div>
 
@@ -722,52 +734,49 @@
          ========================================== -->
     <script>
         /**
-         * Curated Banking Exam High-Frequency Numerators per Denominator (q -> array of numerators p)
-         * Includes the most repeated non-unit fractions in IBPS PO/Clerk, SBI PO/Clerk, RBI, and SSC exams.
+         * Strictly Curated Banking CLERK Exam High-Frequency Numerators per Denominator (q -> array of numerators p)
+         * Researched from IBPS Clerk, SBI Clerk & RRB Clerk Simplification, Approximation & DI papers.
+         * Deliberately excludes PO/Mains-only obscure fractions (e.g. 13ths, 17ths, 18ths, 19ths, 5/16–15/16, 7/15–14/15, 3/14+, 5/24+).
          */
         const BANKING_IMPORTANT_NUMERATORS = {
-            2:  [1],
-            3:  [1, 2],                         // 1/3 (33.33%), 2/3 (66.67%)
-            4:  [1, 3],                         // 1/4 (25%), 3/4 (75%)
-            5:  [1, 2, 3, 4],                   // 20%, 40%, 60%, 80%
-            6:  [1, 5],                         // 1/6 (16.67%), 5/6 (83.33%)
-            7:  [1, 2, 3, 4, 5, 6],             // 14.28%, 28.57%, 42.85%, 57.14%, 71.42%, 85.71%
-            8:  [1, 3, 5, 7],                   // 12.5%, 37.5%, 62.5%, 87.5%
-            9:  [1, 2, 4, 5, 7, 8],             // 11.11%, 22.22%, 44.44%, 55.55%, 77.77%, 88.88%
-            10: [1, 3, 7, 9],                   // 10%, 30%, 70%, 90%
-            11: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],// 9.09%, 18.18%, 27.27%, 36.36%, 45.45%, ...
-            12: [1, 5, 7, 11],                  // 8.33%, 41.67%, 58.33%, 91.67%
-            13: [1, 2, 3, 4],                   // 7.69%, 15.38%, 23.07%, 30.77%
-            14: [1, 3, 5, 9, 11, 13],           // 7.14%, 21.42%, 35.71%, 64.28%, ...
-            15: [1, 2, 4, 7, 8, 11, 13, 14],    // 6.67%, 13.33%, 26.67%, 46.67%, 53.33%, 73.33%, ...
-            16: [1, 3, 5, 7, 9, 11, 13, 15],    // 6.25%, 18.75%, 31.25%, 43.75%, 56.25%, 68.75%, 81.25%, 93.75%
-            17: [1, 2, 3],                      // 5.88%, 11.76%, 17.65%
-            18: [1, 5, 7, 11],                  // 5.55%, 27.77%, 38.88%, 61.11%
-            19: [1, 2, 3],                      // 5.26%, 10.52%, 15.79%
-            20: [1, 3, 7, 9, 11, 13, 17, 19],   // 5%, 15%, 35%, 45%, 55%, 65%, 85%, 95%
-            24: [1, 5, 7, 11],                  // 4.16%, 20.83%, 29.16%, 45.83%
-            25: [1, 2, 3, 4, 6, 7, 8, 9, 11, 12],
-            30: [1, 7, 11, 13],
-            40: [1, 3, 7, 9, 11]
+            2:  [1],                    // 50%
+            3:  [1, 2],                 // 33.33%, 66.67%
+            4:  [1, 3],                 // 25%, 75%
+            5:  [1, 2, 3, 4],           // 20%, 40%, 60%, 80%
+            6:  [1, 5],                 // 16.66%, 83.33%
+            7:  [1, 2, 3],              // 14.28%, 28.57%, 42.85%
+            8:  [1, 3, 5, 7],           // 12.5%, 37.5%, 62.5%, 87.5%
+            9:  [1, 2, 4, 5],           // 11.11%, 22.22%, 44.44%, 55.55%
+            10: [1, 3, 7, 9],           // 10%, 30%, 70%, 90%
+            11: [1, 2, 3],              // 9.09%, 18.18%, 27.27%
+            12: [1, 5, 7],              // 8.33%, 41.66%, 58.33%
+            14: [1],                    // 7.14%
+            15: [1, 2],                 // 6.66%, 13.33%
+            16: [1, 3],                 // 6.25%, 18.75%
+            20: [1, 3, 7, 9],           // 5%, 15%, 35%, 45%
+            24: [1],                    // 4.16%
+            25: [1, 3],                 // 4%, 12%
+            30: [1],                    // 3.33%
+            40: [1]                     // 2.5%
         };
 
         /**
-         * Super-important banking exam fractions that repeat most frequently in simplification/DI.
-         * Used to give extra weight in 'banking' mode so exam favourites appear more often.
+         * Highest-repeat IBPS / SBI / RRB Clerk simplification & DI fractions.
+         * Given higher sampling weight in 'banking' (Clerk p/q) mode so exam staples appear most often.
          */
         const VIP_BANKING_FRACTIONS = new Set([
+            '1/2',
             '1/3', '2/3',
             '1/4', '3/4',
             '1/5', '2/5', '3/5', '4/5',
             '1/6', '5/6',
-            '1/7', '2/7', '3/7', '4/7', '5/7', '6/7',
+            '1/7', '2/7', '3/7',
             '1/8', '3/8', '5/8', '7/8',
-            '1/9', '2/9', '4/9', '5/9', '7/9', '8/9',
-            '1/11', '2/11', '3/11', '4/11', '5/11',
-            '1/12', '5/12', '7/12', '11/12',
-            '1/14', '3/14', '5/14',
-            '1/15', '2/15', '4/15', '7/15', '8/15',
-            '1/16', '3/16', '5/16', '7/16', '9/16',
+            '1/9', '2/9', '4/9', '5/9',
+            '1/11', '2/11', '3/11',
+            '1/12', '5/12', '7/12',
+            '1/15', '2/15',
+            '1/16', '3/16',
             '1/20', '3/20', '7/20', '9/20'
         ]);
 
@@ -778,57 +787,30 @@
         const BANKING_ALT_DECIMALS = {
             '1/3': ['33.33'],
             '2/3': ['66.67', '66.66'],
-            '1/6': ['16.67', '16.66'],
+            '1/6': ['16.66', '16.67'],
             '5/6': ['83.33'],
             '1/7': ['14.28', '14.29'],
             '2/7': ['28.57', '28.56'],
             '3/7': ['42.85', '42.86', '42.84'],
-            '4/7': ['57.14', '57.12'],
-            '5/7': ['71.42', '71.43', '71.40'],
-            '6/7': ['85.71', '85.68'],
             '1/9': ['11.11'],
             '2/9': ['22.22'],
             '4/9': ['44.44'],
             '5/9': ['55.55', '55.56'],
-            '7/9': ['77.77', '77.78'],
-            '8/9': ['88.88', '88.89'],
             '1/11': ['9.09'],
             '2/11': ['18.18'],
             '3/11': ['27.27'],
-            '4/11': ['36.36'],
-            '5/11': ['45.45'],
-            '6/11': ['54.54', '54.55'],
-            '7/11': ['63.63', '63.64'],
-            '8/11': ['72.72', '72.73'],
-            '9/11': ['81.81', '81.82'],
-            '10/11': ['90.90', '90.91'],
             '1/12': ['8.33'],
-            '5/12': ['41.67', '41.66'],
+            '5/12': ['41.66', '41.67'],
             '7/12': ['58.33'],
-            '11/12': ['91.67', '91.66'],
             '1/13': ['7.69'],
-            '2/13': ['15.38'],
-            '3/13': ['23.07', '23.08'],
             '1/14': ['7.14'],
-            '3/14': ['21.42', '21.43'],
-            '5/14': ['35.71'],
-            '1/15': ['6.67', '6.66'],
+            '1/15': ['6.66', '6.67'],
             '2/15': ['13.33'],
-            '4/15': ['26.67', '26.66'],
-            '7/15': ['46.67', '46.66'],
-            '8/15': ['53.33'],
-            '11/15': ['73.33'],
-            '13/15': ['86.67', '86.66'],
-            '14/15': ['93.33'],
             '1/17': ['5.88'],
-            '2/17': ['11.76'],
             '1/18': ['5.55', '5.56'],
-            '5/18': ['27.77', '27.78'],
-            '7/18': ['38.88', '38.89'],
             '1/19': ['5.26'],
-            '2/19': ['10.52', '10.53'],
             '1/24': ['4.16', '4.17'],
-            '5/24': ['20.83']
+            '1/30': ['3.33']
         };
 
         /**
@@ -876,7 +858,7 @@
          */
         let quizState = {
             ranges: {
-                multiplication: { from: 11, to: 20, m: 10 },
+                multiplication: { from: 11, to: 20, byFrom: 2, byTo: 10 },
                 squares: { from: 11, to: 30 },
                 cubes: { from: 1, to: 15 },
                 perc_frac: { from: 2, to: 20, mode: 'banking', direction: 'both' }
@@ -923,12 +905,12 @@
             if (!grid) return;
 
             const groups = [
-                { title: 'Denom 3, 4 & 5 (Core)', items: [[1,3],[2,3],[1,4],[3,4],[1,5],[2,5],[3,5],[4,5]] },
-                { title: 'Denom 6 & 8 (Very High Repeat)', items: [[1,6],[5,6],[1,8],[3,8],[5,8],[7,8]] },
-                { title: 'Denom 7 Family (14.28% Series)', items: [[1,7],[2,7],[3,7],[4,7],[5,7],[6,7]] },
-                { title: 'Denom 9 & 11 (Repeating Digits)', items: [[1,9],[2,9],[4,9],[5,9],[7,9],[8,9],[1,11],[2,11],[3,11],[4,11],[5,11]] },
-                { title: 'Denom 12 & 15 (Mixed Specials)', items: [[1,12],[5,12],[7,12],[11,12],[1,15],[2,15],[4,15],[7,15],[8,15]] },
-                { title: 'Denom 16, 20 & 24 (DI Specials)', items: [[1,16],[3,16],[5,16],[7,16],[9,16],[3,20],[7,20],[9,20],[1,24],[5,24]] }
+                { title: 'Denom 2, 3, 4 & 5 (Clerk Core)', items: [[1,2],[1,3],[2,3],[1,4],[3,4],[1,5],[2,5],[3,5],[4,5]] },
+                { title: 'Denom 6 & 8 (Highest Clerk Repeat)', items: [[1,6],[5,6],[1,8],[3,8],[5,8],[7,8]] },
+                { title: 'Denom 7 & 14 (14.28% Series)', items: [[1,7],[2,7],[3,7],[1,14]] },
+                { title: 'Denom 9 & 11 (Recurring Digits)', items: [[1,9],[2,9],[4,9],[5,9],[1,11],[2,11],[3,11]] },
+                { title: 'Denom 10, 12 & 15 (Simplification)', items: [[1,10],[3,10],[7,10],[9,10],[1,12],[5,12],[7,12],[1,15],[2,15]] },
+                { title: 'Denom 16, 20 & 24–40 (Clerk DI)', items: [[1,16],[3,16],[1,20],[3,20],[7,20],[9,20],[1,24],[1,25],[3,25],[1,30],[1,40]] }
             ];
 
             grid.innerHTML = groups.map(g => {
@@ -993,24 +975,31 @@
         }
 
         /**
-         * Set Multiplication 'm' value via preset chips (10, 15, 20)
+         * Set Multiplication multiplier From–To range via quick preset chips
          */
-        function setMultM(val) {
-            document.getElementById('multM').value = val;
+        function setMultByRange(fromVal, toVal) {
+            document.getElementById('multByFrom').value = fromVal;
+            document.getElementById('multByTo').value = toVal;
             updateRangePreviews();
         }
 
         /**
-         * Highlight active preset chip for Multiplication 'm' (10, 15, 20)
+         * Highlight active preset chip for Multiplication multiplier From–To range
          */
-        function updateMultMChipStyles(currentM) {
-            [10, 15, 20].forEach(preset => {
-                const btn = document.getElementById(`multMChip${preset}`);
+        function updateMultByChipStyles(currentFrom, currentTo) {
+            const presets = [
+                [2, 10],
+                [2, 15],
+                [11, 20],
+                [2, 20]
+            ];
+            presets.forEach(([pFrom, pTo]) => {
+                const btn = document.getElementById(`multByChip_${pFrom}_${pTo}`);
                 if (!btn) return;
-                if (currentM === preset) {
-                    btn.className = 'flex-1 py-1.5 px-2 text-xs font-mono font-bold rounded-lg bg-indigo-600 text-white shadow-xs transition-all cursor-pointer';
+                if (currentFrom === pFrom && currentTo === pTo) {
+                    btn.className = 'py-1 px-1.5 text-[11px] font-mono font-bold rounded-lg bg-indigo-600 text-white shadow-xs transition-all cursor-pointer';
                 } else {
-                    btn.className = 'flex-1 py-1.5 px-2 text-xs font-mono font-bold rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-indigo-600 hover:text-white transition-all cursor-pointer';
+                    btn.className = 'py-1 px-1.5 text-[11px] font-mono font-bold rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-indigo-600 hover:text-white transition-all cursor-pointer';
                 }
             });
         }
@@ -1060,12 +1049,13 @@
         }
 
         /**
-         * Live update of category range preview badges when From, To, or m changes
+         * Live update of category range preview badges when From or To changes
          */
         function updateRangePreviews() {
             const multFrom = parseInt(document.getElementById('multFrom').value, 10) || 1;
             const multTo = parseInt(document.getElementById('multTo').value, 10) || 1;
-            const multM = parseInt(document.getElementById('multM').value, 10) || 10;
+            const multByFrom = parseInt(document.getElementById('multByFrom').value, 10) || 1;
+            const multByTo = parseInt(document.getElementById('multByTo').value, 10) || 1;
 
             const sqFrom = parseInt(document.getElementById('sqFrom').value, 10) || 1;
             const sqTo = parseInt(document.getElementById('sqTo').value, 10) || 1;
@@ -1077,19 +1067,19 @@
             const pfTo = parseInt(document.getElementById('pfTo').value, 10) || 2;
             const pfMode = quizState.ranges.perc_frac.mode || 'banking';
 
-            document.getElementById('previewMult').textContent = `Tables ${multFrom}–${multTo} × up to ${multM}`;
+            document.getElementById('previewMult').textContent = `Tables ${multFrom}–${multTo} × (${multByFrom}–${multByTo})`;
             document.getElementById('previewSquares').textContent = `${sqFrom}² to ${sqTo}²`;
             document.getElementById('previewCubes').textContent = `${cubeFrom}³ to ${cubeTo}³`;
 
             if (pfMode === 'unit') {
                 document.getElementById('previewPercFrac').textContent = `1/${pfFrom} to 1/${pfTo}`;
             } else if (pfMode === 'multiples_only') {
-                document.getElementById('previewPercFrac').textContent = `p/q (p>1, Denom ${pfFrom}–${pfTo})`;
+                document.getElementById('previewPercFrac').textContent = `Clerk p>1 (Denom ${pfFrom}–${pfTo})`;
             } else {
-                document.getElementById('previewPercFrac').textContent = `Banking p/q (Denom ${pfFrom}–${pfTo})`;
+                document.getElementById('previewPercFrac').textContent = `Clerk p/q (Denom ${pfFrom}–${pfTo})`;
             }
 
-            updateMultMChipStyles(multM);
+            updateMultByChipStyles(multByFrom, multByTo);
         }
 
         /**
@@ -1186,51 +1176,42 @@
         }
 
         /**
-         * Get candidate simplified fractions [p, q] for a denominator q and chosen mode
+         * Get candidate simplified fractions [p, q] for a denominator q and chosen mode.
+         * In 'banking' (Clerk p/q) and 'multiples_only' (Clerk p>1) modes, returns ONLY strictly curated
+         * Banking Clerk fractions (never falls back to PO-level or obscure denominators like 13, 17, 18, 19).
          */
         function getCandidateNumeratorsForDenominator(q, mode) {
             if (mode === 'unit') {
                 return [1];
             }
 
-            let nums = [];
-            if (BANKING_IMPORTANT_NUMERATORS[q]) {
-                nums = [...BANKING_IMPORTANT_NUMERATORS[q]];
-            } else {
-                // For custom denominators outside the preset map, include 1 and small coprime numerators
-                nums = [1];
-                for (let p = 2; p < q && nums.length < 5; p++) {
-                    if (gcd(p, q) === 1) {
-                        nums.push(p);
-                    }
-                }
+            if (!BANKING_IMPORTANT_NUMERATORS[q]) {
+                return [];
             }
 
             // Ensure all pairs are simplified (coprime)
-            nums = nums.filter(p => p >= 1 && p < q && gcd(p, q) === 1);
+            const nums = BANKING_IMPORTANT_NUMERATORS[q].filter(p => p >= 1 && p < q && gcd(p, q) === 1);
 
             if (mode === 'multiples_only') {
-                const gt1 = nums.filter(p => p > 1);
-                return gt1.length > 0 ? gt1 : nums;
+                return nums.filter(p => p > 1);
             }
 
             return nums;
         }
 
         /**
-         * Generate pool of candidate questions for a single category using its custom From/To/m range
+         * Generate pool of candidate questions for a single category using its custom From/To ranges
          */
         function buildCategoryPool(category, ranges) {
             const pool = [];
 
             if (category === 'multiplication') {
-                const { from, to, m } = ranges.multiplication;
-                const startB = m >= 2 ? 2 : 1;
+                const { from, to, byFrom, byTo } = ranges.multiplication;
                 for (let a = from; a <= to; a++) {
-                    for (let b = startB; b <= m; b++) {
+                    for (let b = byFrom; b <= byTo; b++) {
                         pool.push({
                             category: 'multiplication',
-                            subPrompt: `Multiplication Table (${from}–${to} × up to ${m})`,
+                            subPrompt: `Multiplication Table (${from}–${to} × ${byFrom}–${byTo})`,
                             prompt: `${a} × ${b} = ?`,
                             expectedType: 'integer',
                             exactValue: a * b,
@@ -1300,7 +1281,7 @@
                                     category: 'perc_frac',
                                     fracKey: `${fracKey}_to_pct`,
                                     subPrompt: p > 1
-                                        ? `Banking Exam Multiple Fraction → Percentage (${p} × 1/${q})`
+                                        ? `Banking Clerk Fraction → Percentage (${p} × 1/${q})`
                                         : `Convert Base Fraction to Percentage (Denom ${from}–${to})`,
                                     prompt: `${p}/${q} = ____ %`,
                                     expectedType: 'percentage',
@@ -1324,7 +1305,7 @@
                                     category: 'perc_frac',
                                     fracKey: `${fracKey}_to_frac`,
                                     subPrompt: p > 1
-                                        ? `Banking Exam Percentage → Simplified Fraction p/q`
+                                        ? `Banking Clerk Percentage → Simplified Fraction p/q`
                                         : `Convert Percentage to Fraction (Denom ${from}–${to})`,
                                     prompt: promptLabel,
                                     expectedType: 'fraction',
@@ -1422,7 +1403,8 @@
                 multiplication: {
                     from: parseInt(document.getElementById('multFrom').value, 10),
                     to: parseInt(document.getElementById('multTo').value, 10),
-                    m: parseInt(document.getElementById('multM').value, 10)
+                    byFrom: parseInt(document.getElementById('multByFrom').value, 10),
+                    byTo: parseInt(document.getElementById('multByTo').value, 10)
                 },
                 squares: {
                     from: parseInt(document.getElementById('sqFrom').value, 10),
@@ -1442,13 +1424,13 @@
 
             // Validate selected category ranges
             if (selectedCategories.includes('multiplication')) {
-                const { from, to, m } = ranges.multiplication;
+                const { from, to, byFrom, byTo } = ranges.multiplication;
                 if (isNaN(from) || isNaN(to) || from < 1 || to > 500 || from > to) {
-                    showSetupError('Multiplication Table: Please enter a valid "From" and "To" range (From ≤ To, between 1 and 500).');
+                    showSetupError('Multiplication Table: Please enter a valid "Table From" and "Table To" range (From ≤ To, between 1 and 500).');
                     return;
                 }
-                if (isNaN(m) || m < 2 || m > 200) {
-                    showSetupError('Multiplication Table: Please enter a valid "Multiply up to (m)" value (between 2 and 200).');
+                if (isNaN(byFrom) || isNaN(byTo) || byFrom < 1 || byTo > 200 || byFrom > byTo) {
+                    showSetupError('Multiplication Table: Please enter a valid "Multiply From" and "Multiply To" range (From ≤ To, between 1 and 200).');
                     return;
                 }
             }
@@ -1473,6 +1455,10 @@
                 const { from, to } = ranges.perc_frac;
                 if (isNaN(from) || isNaN(to) || from < 2 || to > 200 || from > to) {
                     showSetupError('Percentage ↔ Fraction: Please enter a valid denominator "From" and "To" range (From ≤ To, between 2 and 200).');
+                    return;
+                }
+                if (buildCategoryPool('perc_frac', ranges).length === 0) {
+                    showSetupError(`Percentage ↔ Fraction: No high-frequency Banking Clerk fractions exist in denominator range ${from}–${to} for the selected mode. Widen the range (e.g. 2–20) or switch to Unit (1/q).`);
                     return;
                 }
             }
@@ -1533,13 +1519,13 @@
          */
         function getCategoryRangeLabel(catKey) {
             const r = quizState.ranges;
-            if (catKey === 'multiplication') return `${r.multiplication.from}–${r.multiplication.to} × up to ${r.multiplication.m}`;
+            if (catKey === 'multiplication') return `${r.multiplication.from}–${r.multiplication.to} × (${r.multiplication.byFrom}–${r.multiplication.byTo})`;
             if (catKey === 'squares') return `${r.squares.from}² to ${r.squares.to}²`;
             if (catKey === 'cubes') return `${r.cubes.from}³ to ${r.cubes.to}³`;
             if (catKey === 'perc_frac') {
                 const modeLabel = r.perc_frac.mode === 'unit'
                     ? '1/q'
-                    : (r.perc_frac.mode === 'multiples_only' ? 'p/q (p>1)' : 'Banking p/q');
+                    : (r.perc_frac.mode === 'multiples_only' ? 'Clerk p>1' : 'Clerk p/q');
                 return `${modeLabel}, Denom ${r.perc_frac.from}–${r.perc_frac.to}`;
             }
             return '';
