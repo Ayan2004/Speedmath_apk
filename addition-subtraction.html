@@ -204,7 +204,7 @@
                                     <input type="radio" name="addDigits" value="1" class="w-4 h-4 accent-sky-500" onchange="highlightRadioCards()">
                                     <div>
                                         <span class="text-sm font-semibold text-white block">Single Digit (1 Digit)</span>
-                                        <span class="text-xs text-slate-400">Numbers from 1 to 9</span>
+                                        <span class="text-xs text-slate-400">Numbers 1 to 9 • 2-digit sums only (≥ 10)</span>
                                     </div>
                                 </div>
                                 <span class="font-mono text-xs px-2.5 py-1 rounded-lg bg-slate-900 text-sky-300 border border-slate-700">e.g. 7 + 8</span>
@@ -1191,7 +1191,36 @@
          */
         function generateOperands(digitMode, category, termCount, avoidNegative) {
             const count = Math.max(2, Math.min(20, termCount || 2));
-            const operands = [];
+            let operands = [];
+
+            // For Single-Digit Addition, guarantee a 2-digit (≥ 10) sum — never single-digit sums like 6 + 2 = 8
+            if (category === 'Addition' && digitMode === '1') {
+                if (count === 2) {
+                    const validPairs = [];
+                    for (let a = 1; a <= 9; a++) {
+                        for (let b = 1; b <= 9; b++) {
+                            if (a + b >= 10) validPairs.push([a, b]);
+                        }
+                    }
+                    const chosen = validPairs[randomInt(0, validPairs.length - 1)];
+                    return [chosen[0], chosen[1]];
+                } else {
+                    for (let attempt = 0; attempt < 50; attempt++) {
+                        operands = [];
+                        let sum = 0;
+                        for (let i = 0; i < count; i++) {
+                            const val = randomInt(1, 9);
+                            operands.push(val);
+                            sum += val;
+                        }
+                        if (sum >= 10) return operands;
+                    }
+                    // Deterministic fallback if needed
+                    operands[0] = randomInt(5, 9);
+                    operands[1] = randomInt(10 - operands[0], 9);
+                    return operands;
+                }
+            }
 
             for (let i = 0; i < count; i++) {
                 operands.push(generateSingleOperand(digitMode));
