@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBPS RRB Clerk Simplification MCQ Engine — Developed by Ayan</title>
+    <!-- Tailwind CSS CDN (100% GitHub Pages Static Compatible) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .bg-grid-pattern {
+            background-color: #090d16;
+            background-image:
+                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 50%),
+                linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+        }
+        .tabular-nums {
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+</head>
+<body class="bg-grid-pattern text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-emerald-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <header class="w-full border-b border-slate-800/80 bg-slate-900/80 backdrop-blur-md sticky top-0 z-30">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+            <a href="index.html" class="text-base sm:text-lg font-extrabold tracking-tight text-white whitespace-nowrap shrink-0 flex items-center gap-2.5">
+                <span class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-mono text-sm shadow-sm">4×</span>
+                <span>RRB Clerk <span class="text-emerald-400">Simplification</span></span>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-6 text-xs sm:text-sm font-semibold text-slate-300">
+                <a href="index.html" class="hover:text-emerald-400 transition-colors whitespace-nowrap shrink-0">Index Hub</a>
+                <a href="addition-subtraction.html" class="hover:text-emerald-400 transition-colors whitespace-nowrap shrink-0">Add &amp; Sub Drill</a>
+                <a href="custom-quiz-engine.html" class="hover:text-emerald-400 transition-colors whitespace-nowrap shrink-0">Tables &amp; % Engine</a>
+                <button type="button" onclick="togglePatternsModal(true)" class="hover:text-emerald-400 transition-colors whitespace-nowrap shrink-0 cursor-pointer">
+                    RRB Clerk Patterns
+                </button>
+            </nav>
+
+            <div class="flex items-center gap-2.5 shrink-0">
+                <a href="index.html" class="md:hidden px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold whitespace-nowrap">
+                    Index Hub
+                </a>
+                <span class="text-xs text-slate-400 whitespace-nowrap hidden sm:inline">
+                    Developed by <strong class="text-emerald-400 font-bold">Ayan</strong>
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- RRB Clerk Common Simplification Patterns Modal -->
+    <div id="patternsModal" class="fixed inset-0 z-50 hidden bg-slate-950/75 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-3xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+            <div class="p-5 border-b border-slate-800 flex items-center justify-between gap-3">
+                <div>
+                    <p class="text-xs font-semibold text-emerald-400">IBPS RRB Clerk (Office Assistant) Prelims Syllabus</p>
+                    <h3 class="text-lg sm:text-xl font-extrabold text-white mt-0.5">
+                        Most Common RRB Clerk Simplification Patterns (PO-Level Excluded)
+                    </h3>
+                </div>
+                <button type="button" onclick="togglePatternsModal(false)" aria-label="Close Patterns Modal"
+                    class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-bold cursor-pointer">
+                    ✕
+                </button>
+            </div>
+            <div class="p-5 overflow-y-auto space-y-4 text-xs sm:text-sm text-slate-300">
+                <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5">
+                    <h4 class="font-bold text-emerald-400">1. Easy Tier (12–17s Target • Direct BODMAS)</h4>
+                    <p class="text-slate-400">3-digit addition/subtraction chains, exact square roots (√121 to √676), clean percentage of hundreds (e.g. <code class="font-mono text-slate-200">35% of 400 + 25% of 300 = ?</code>), and basic division-multiplication chains.</p>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5">
+                    <h4 class="font-bold text-sky-400">2. Moderate Tier (18–25s Target • Standard Shift Staples)</h4>
+                    <p class="text-slate-400">High-repeat Clerk fraction percentages (<code class="font-mono text-slate-200">12.5%, 16.66%, 33.33%, 37.5%</code>), cube roots (1³–15³) combined with square roots, mixed fraction whole-part separation (<code class="font-mono text-slate-200">14(1/3) + 18(2/3) − 11 = ?</code>), and missing percentage equations.</p>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5">
+                    <h4 class="font-bold text-amber-400">3. Hard Tier (25–34s Target • Strictly RRB Clerk Ceiling)</h4>
+                    <p class="text-slate-400">Tricky but 100% Clerk-authentic patterns: multi-fraction percentages (<code class="font-mono text-slate-200">62.5%, 83.33%, 28.57%, 41.66%</code>), algebraic square difference <code class="font-mono text-slate-200">(a² − b²) ÷ c + ∛D = ?</code>, decimal <code class="font-mono text-slate-200">.5</code> double-and-halve tricks (<code class="font-mono text-slate-200">16.5 × 14 + 22.5 × 8</code>), and chained fractions equal to <code class="font-mono text-slate-200">(?)²</code>.</p>
+                </div>
+            </div>
+            <div class="p-4 border-t border-slate-800 bg-slate-900 flex justify-end">
+                <button type="button" onclick="togglePatternsModal(false)"
+                    class="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm cursor-pointer">
+                    Close Reference
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-10">
+
+        <!-- ==========================================
+             SCREEN 1: PRE-QUIZ SETUP & LEVEL CHOOSER
+             ========================================== -->
+        <section id="setupScreen" class="space-y-6">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+                <div class="border-b border-slate-800 pb-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <p class="text-xs font-semibold text-emerald-400">
+                            Module 03 · 100% Static Client-Side AI Level Calibrator · 4-Option MCQ
+                        </p>
+                        <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mt-1">
+                            IBPS RRB Clerk Simplification Mock Drill
+                        </h1>
+                        <p class="text-sm text-slate-400 mt-1">
+                            Practice authentic 4-option simplification questions calibrated strictly for IBPS RRB Clerk (Office Assistant) Prelims. PO-level questions are automatically blocked.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 1: Choose Difficulty Category (Easy, Moderate, Hard, or Exam Mix) -->
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <h2 class="text-sm font-bold text-slate-200">
+                            01. Choose Simplification Difficulty Level
+                        </h2>
+                        <span class="text-xs text-slate-400">
+                            All 3 levels are strictly capped at IBPS RRB Clerk Prelims standard
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5" role="radiogroup" aria-label="Simplification Difficulty Level">
+                        <!-- EASY OPTION -->
+                        <button type="button" id="diffBtn_easy" onclick="selectDifficultyMode('easy')"
+                            class="text-left p-4 rounded-xl border-2 border-slate-800 bg-slate-950/70 hover:border-slate-700 transition-all cursor-pointer flex flex-col justify-between gap-3">
+                            <div>
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="font-extrabold text-base text-white whitespace-nowrap">Easy Level</span>
+                                    <span class="font-mono text-xs text-emerald-400 tabular-nums whitespace-nowrap shrink-0">Target: 12–17s / Q</span>
+                                </div>
+                                <p class="text-xs text-slate-400 mt-1">
+                                    Direct BODMAS chains, 3-digit addition/subtraction, exact square roots (√121–√676), and direct percentages of hundreds.
+                                </p>
+                            </div>
+                            <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-300">
+                                <span>Sample:</span>
+                                <span class="text-emerald-300 font-bold">35% of 400 + √576 = ?</span>
+                            </div>
+                        </button>
+
+                        <!-- MODERATE OPTION (DEFAULT) -->
+                        <button type="button" id="diffBtn_moderate" onclick="selectDifficultyMode('moderate')"
+                            class="text-left p-4 rounded-xl border-2 border-emerald-500 bg-emerald-950/20 transition-all cursor-pointer flex flex-col justify-between gap-3">
+                            <div>
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="font-extrabold text-base text-white whitespace-nowrap">Moderate Level</span>
+                                    <span class="font-mono text-xs text-sky-400 tabular-nums whitespace-nowrap shrink-0">Target: 18–25s / Q</span>
+                                </div>
+                                <p class="text-xs text-slate-400 mt-1">
+                                    Core RRB Clerk shift questions: Clerk fraction-percentages (12.5%, 33.33%, 37.5%), cube roots + square roots, and mixed fractions.
+                                </p>
+                            </div>
+                            <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-300">
+                                <span>Sample:</span>
+                                <span class="text-sky-300 font-bold">12.5% of 320 + ∛1728 × 4 = ?</span>
+                            </div>
+                        </button>
+
+                        <!-- HARD OPTION (STRICTLY RRB CLERK CEILING) -->
+                        <button type="button" id="diffBtn_hard" onclick="selectDifficultyMode('hard')"
+                            class="text-left p-4 rounded-xl border-2 border-slate-800 bg-slate-950/70 hover:border-slate-700 transition-all cursor-pointer flex flex-col justify-between gap-3">
+                            <div>
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="font-extrabold text-base text-white whitespace-nowrap">Hard Level (Clerk Ceiling)</span>
+                                    <span class="font-mono text-xs text-amber-400 tabular-nums whitespace-nowrap shrink-0">Target: 25–34s / Q</span>
+                                </div>
+                                <p class="text-xs text-slate-400 mt-1">
+                                    Most common tricky RRB Clerk patterns only: 62.5% &amp; 83.33% multiples, (a²−b²)÷c, decimal .5 double-and-halve, and (?)² equations. No PO questions.
+                                </p>
+                            </div>
+                            <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-300">
+                                <span>Sample:</span>
+                                <span class="text-amber-300 font-bold">62.5% of 240 + 16.5 × 12 = ?</span>
+                            </div>
+                        </button>
+
+                        <!-- EXAM MIX / AI ADAPTIVE OPTION -->
+                        <button type="button" id="diffBtn_exam_mix" onclick="selectDifficultyMode('exam_mix')"
+                            class="text-left p-4 rounded-xl border-2 border-slate-800 bg-slate-950/70 hover:border-slate-700 transition-all cursor-pointer flex flex-col justify-between gap-3">
+                            <div>
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="font-extrabold text-base text-white whitespace-nowrap">All 3 Mix (RRB Clerk)</span>
+                                    <span class="font-mono text-xs text-indigo-400 tabular-nums whitespace-nowrap shrink-0">40% E · 40% M · 20% H</span>
+                                </div>
+                                <p class="text-xs text-slate-400 mt-1">
+                                    Simulates a real 15-question IBPS RRB Clerk Prelims slot combining Easy, Moderate, and Hard Clerk-level simplifications.
+                                </p>
+                            </div>
+                            <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-300">
+                                <span>Distribution:</span>
+                                <span class="text-indigo-300 font-bold">Balanced Prelims Paper</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: AI Level Analyzer & Adaptive Progression Settings -->
+                <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-emerald-400">Client-Side AI Level Guardrail &amp; Analyzer</span>
+                            <span class="text-xs text-slate-500">·</span>
+                            <span class="text-xs font-mono text-slate-300">GitHub Pages Static JS</span>
+                        </div>
+                        <p class="text-xs text-slate-400">
+                            Analyzes every generated equation for cognitive load, BODMAS depth, and exact integer solvability while keeping difficulty strictly inside RRB Clerk Prelims bounds.
+                        </p>
+                    </div>
+                    <label for="chkAdaptiveAI" class="flex items-center gap-2.5 cursor-pointer select-none shrink-0 bg-slate-900 px-3.5 py-2 rounded-xl border border-slate-800">
+                        <input id="chkAdaptiveAI" type="checkbox" class="w-4 h-4 rounded accent-emerald-500 cursor-pointer">
+                        <span class="text-xs font-bold text-slate-200 whitespace-nowrap">AI Auto-Adjust Level on Streak</span>
+                    </label>
+                </div>
+
+                <!-- Step 3: Number of Questions & Start Button -->
+                <div class="pt-4 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div class="flex flex-wrap items-center gap-3">
+                        <label for="totalQuestionsInput" class="text-sm font-bold text-slate-200">
+                            Number of Questions:
+                        </label>
+                        <input id="totalQuestionsInput" type="number" min="1" max="100" value="15"
+                            oninput="updateQuestionPresetStyles()"
+                            class="w-20 px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 font-mono text-base font-bold text-center text-white focus:outline-none focus:border-emerald-500 tabular-nums">
+                        <div class="flex items-center gap-1.5">
+                            <button type="button" onclick="setTotalQuestions(10)" id="qChip_10"
+                                class="px-3 py-2 rounded-lg text-xs font-mono font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 cursor-pointer">
+                                10
+                            </button>
+                            <button type="button" onclick="setTotalQuestions(15)" id="qChip_15"
+                                class="px-3 py-2 rounded-lg text-xs font-mono font-bold bg-emerald-600 text-white cursor-pointer">
+                                15 (Exam)
+                            </button>
+                            <button type="button" onclick="setTotalQuestions(20)" id="qChip_20"
+                                class="px-3 py-2 rounded-lg text-xs font-mono font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 cursor-pointer">
+                                20
+                            </button>
+                            <button type="button" onclick="setTotalQuestions(30)" id="qChip_30"
+                                class="px-3 py-2 rounded-lg text-xs font-mono font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 cursor-pointer">
+                                30
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="button" id="startSimplificationBtn" onclick="startSimplificationQuiz()"
+                        class="px-7 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-sm sm:text-base shadow-lg shadow-emerald-600/20 transition-all cursor-pointer whitespace-nowrap">
+                        Start RRB Clerk Quiz →
+                    </button>
+                </div>
+
+                <!-- Validation Banner -->
+                <div id="setupErrorBanner" class="hidden p-3.5 rounded-xl bg-rose-950/60 border border-rose-800 text-rose-200 text-xs font-semibold">
+                    Please enter a valid number of questions between 1 and 100.
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SCREEN 2: 4-OPTION MCQ QUIZ INTERFACE
+             ========================================== -->
+        <section id="quizScreen" class="hidden space-y-5">
+            <!-- Top Quiz Status Bar -->
+            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-md">
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+                    <div class="flex items-center gap-3">
+                        <span class="font-mono text-base sm:text-lg font-extrabold text-white tabular-nums">
+                            Question <span id="currentQNum">1</span> / <span id="totalQNum">15</span>
+                        </span>
+                        <span class="text-slate-600">·</span>
+                        <span id="currentDifficultyLabel" class="text-xs font-bold text-emerald-400">
+                            Moderate Level
+                        </span>
+                    </div>
+
+                    <!-- Live Score & Timer -->
+                    <div class="flex flex-wrap items-center gap-3 text-xs sm:text-sm font-mono font-bold tabular-nums">
+                        <span class="text-emerald-400">✓ Correct: <span id="liveCorrectCount">0</span></span>
+                        <span class="text-slate-600">·</span>
+                        <span class="text-rose-400">✗ Wrong: <span id="liveWrongCount">0</span></span>
+                        <span class="text-slate-600">·</span>
+                        <span class="text-amber-400">⏭ Skipped: <span id="liveSkippedCount">0</span></span>
+                        <span class="text-slate-600">·</span>
+                        <span class="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 text-slate-200">
+                            ⏱ <span id="liveTimer">00:00</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="quizProgressBar" class="h-full bg-emerald-500 transition-all duration-300" style="width: 6%"></div>
+                </div>
+            </div>
+
+            <!-- Question & 4 MCQ Options Card -->
+            <div class="bg-slate-900/95 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+                <!-- AI Level Analyzer Metadata Bar -->
+                <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400 border-b border-slate-800/80 pb-3.5">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span id="qPatternName" class="font-semibold text-slate-200">Fraction-to-Percentage Conversion</span>
+                        <span>·</span>
+                        <span id="qAiScoreLabel" class="font-mono text-emerald-400 tabular-nums">AI Clerk Index: 58/100 (Verified)</span>
+                        <span>·</span>
+                        <span id="qTargetTimeLabel" class="font-mono text-slate-300 tabular-nums">Target: 20s</span>
+                    </div>
+                    <button type="button" onclick="finishQuizEarly()" class="text-xs font-semibold text-slate-400 hover:text-rose-400 transition-colors cursor-pointer">
+                        End Quiz &amp; View Report →
+                    </button>
+                </div>
+
+                <!-- Mathematical Simplification Expression Box -->
+                <div class="py-7 px-4 sm:px-6 rounded-2xl bg-slate-950 border border-slate-800/90 text-center space-y-2">
+                    <p class="text-xs font-medium text-slate-400">
+                        What value should come in place of the question mark (<span class="font-mono text-emerald-400 font-bold">?</span>) in the following equation?
+                    </p>
+                    <div id="questionExpressionText" class="font-mono text-2xl sm:text-4xl font-extrabold text-white tracking-tight break-words tabular-nums pt-1">
+                        12.5% of 320 + ∛1728 × 4 = ?
+                    </div>
+                </div>
+
+                <!-- 4 Multiple Choice Options Grid (A, B, C, D) -->
+                <div class="space-y-2.5">
+                    <div class="flex items-center justify-between text-xs text-slate-400">
+                        <span>Select one of the 4 options below (or press keys <kbd class="px-1.5 py-0.5 rounded bg-slate-800 font-mono text-slate-300">1–4</kbd> / <kbd class="px-1.5 py-0.5 rounded bg-slate-800 font-mono text-slate-300">A–D</kbd>):</span>
+                        <span id="questionTimerLive" class="font-mono text-slate-300 tabular-nums">0.0s</span>
+                    </div>
+
+                    <div id="optionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5" role="group" aria-label="Multiple Choice Options">
+                        <!-- Dynamically populated 4 option buttons -->
+                    </div>
+                </div>
+
+                <!-- Instant Explanation & Shortcut Trick Box (Shown after selecting an option or skipping) -->
+                <div id="feedbackBanner" class="hidden p-4 sm:p-5 rounded-xl border border-slate-700 bg-slate-950/90 space-y-2">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <h3 id="feedbackHeading" class="text-sm sm:text-base font-extrabold text-emerald-400">
+                            ✓ Correct Answer!
+                        </h3>
+                        <span id="feedbackPacingNote" class="text-xs font-mono text-slate-300 tabular-nums">
+                            Solved in 14.2s (Target: 20s)
+                        </span>
+                    </div>
+                    <p id="feedbackShortcutText" class="text-xs sm:text-sm text-slate-200 font-medium"></p>
+                    <div id="feedbackStepsList" class="pt-1 space-y-1 text-xs font-mono text-slate-400"></div>
+                </div>
+
+                <!-- Action Bar: Skip Question Button + Next Question Button -->
+                <div class="pt-4 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
+                    <button type="button" id="skipQuestionBtn" onclick="handleSkipQuestion()"
+                        class="px-5 py-3 rounded-xl border border-amber-500/40 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 font-bold text-sm transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap">
+                        <span>Skip Question</span>
+                        <span class="text-xs font-mono opacity-80">(S)</span>
+                    </button>
+
+                    <button type="button" id="nextQuestionBtn" onclick="handleNextQuestion()"
+                        class="px-7 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-sm sm:text-base shadow-md shadow-emerald-600/20 transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap ml-auto">
+                        <span id="nextQuestionBtnText">Next Question →</span>
+                        <span class="text-xs font-mono opacity-80">(Enter ↵)</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SCREEN 3: END-OF-QUIZ PERFORMANCE REPORT
+             ========================================== -->
+        <section id="reviewScreen" class="hidden space-y-6">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-800">
+                    <div>
+                        <p class="text-xs font-semibold text-emerald-400">IBPS RRB Clerk Simplification Assessment Report</p>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mt-0.5">
+                            Performance &amp; AI Level Analysis
+                        </h2>
+                        <p id="reviewSubheading" class="text-xs sm:text-sm text-slate-400 mt-1 font-mono"></p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2.5">
+                        <button type="button" onclick="retrySameQuiz()"
+                            class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm cursor-pointer whitespace-nowrap">
+                            ↻ Retry New Set
+                        </button>
+                        <button type="button" onclick="returnToSetup()"
+                            class="px-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs sm:text-sm cursor-pointer whitespace-nowrap">
+                            ⚙ Change Difficulty
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 5 Metric Summary Strip -->
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center">
+                    <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800">
+                        <p class="text-xs text-slate-400 font-medium">Total Qs</p>
+                        <p id="sumTotal" class="font-mono text-2xl font-extrabold text-white mt-1 tabular-nums">15</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800">
+                        <p class="text-xs text-emerald-400 font-medium">Correct</p>
+                        <p id="sumCorrect" class="font-mono text-2xl font-extrabold text-emerald-400 mt-1 tabular-nums">0</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800">
+                        <p class="text-xs text-rose-400 font-medium">Wrong</p>
+                        <p id="sumWrong" class="font-mono text-2xl font-extrabold text-rose-400 mt-1 tabular-nums">0</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800">
+                        <p class="text-xs text-amber-400 font-medium">Skipped</p>
+                        <p id="sumSkipped" class="font-mono text-2xl font-extrabold text-amber-400 mt-1 tabular-nums">0</p>
+                    </div>
+                    <div class="col-span-2 sm:col-span-1 p-4 rounded-xl bg-slate-950/80 border border-slate-800">
+                        <p class="text-xs text-sky-400 font-medium">Avg Speed</p>
+                        <p id="sumAvgTime" class="font-mono text-2xl font-extrabold text-sky-400 mt-1 tabular-nums">0.0s</p>
+                    </div>
+                </div>
+
+                <!-- AI Pacing & Exam Readiness Verdict -->
+                <div class="p-4 rounded-xl bg-slate-950/90 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                        <h3 class="text-sm font-bold text-white" id="aiVerdictTitle">AI Exam Readiness Analysis</h3>
+                        <p class="text-xs text-slate-400 mt-0.5" id="aiVerdictDetail"></p>
+                    </div>
+                    <span id="sumAccuracyLabel" class="font-mono text-sm font-extrabold text-emerald-400 shrink-0 tabular-nums">
+                        Accuracy: 0%
+                    </span>
+                </div>
+
+                <!-- Difficulty Tier Breakdown Table (Easy / Moderate / Hard) -->
+                <div>
+                    <h3 class="text-base font-extrabold text-white mb-3">Difficulty Tier Breakdown (Easy · Moderate · Hard)</h3>
+                    <div class="overflow-x-auto rounded-xl border border-slate-800">
+                        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                            <thead>
+                                <tr class="bg-slate-950 text-slate-400 border-b border-slate-800">
+                                    <th class="py-3 px-4">RRB Clerk Tier</th>
+                                    <th class="py-3 px-4 text-center">Total</th>
+                                    <th class="py-3 px-4 text-center text-emerald-400">Correct</th>
+                                    <th class="py-3 px-4 text-center text-rose-400">Wrong</th>
+                                    <th class="py-3 px-4 text-center text-amber-400">Skipped</th>
+                                    <th class="py-3 px-4 text-right">Avg Time</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tierBreakdownBody" class="divide-y divide-slate-800/80 font-mono tabular-nums">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Question-by-Question Review Log with Shortcut Solutions -->
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <h3 class="text-base font-extrabold text-white">Question-by-Question Solutions &amp; Shortcuts</h3>
+                        <div class="flex items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800">
+                            <button type="button" id="logFilter_all" onclick="renderReviewLog('all')"
+                                class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-white cursor-pointer">
+                                All
+                            </button>
+                            <button type="button" id="logFilter_wrong" onclick="renderReviewLog('wrong')"
+                                class="px-3 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white cursor-pointer">
+                                Wrong
+                            </button>
+                            <button type="button" id="logFilter_skipped" onclick="renderReviewLog('skipped')"
+                                class="px-3 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white cursor-pointer">
+                                Skipped
+                            </button>
+                            <button type="button" id="logFilter_correct" onclick="renderReviewLog('correct')"
+                                class="px-3 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white cursor-pointer">
+                                Correct
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="reviewLogContainer" class="space-y-3 max-h-[520px] overflow-y-auto pr-1">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full border-t border-slate-800/80 bg-slate-950/80 py-5 mt-auto">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
+            <span>SpeedMath Portal · IBPS RRB Clerk Simplification Engine (100% Static GitHub Pages Compatible)</span>
+            <span>Developed by <strong class="text-emerald-400">Ayan</strong></span>
+        </div>
+    </footer>
+
+    <!-- Pure Client-Side Simplification Engine -->
+    <script src="simplification-engine.js"></script>
+    <script>
+        const OPTION_LETTERS = ['A', 'B', 'C', 'D'];
+        const DIFFICULTY_LABELS = {
+            easy: 'Easy Level (Direct BODMAS)',
+            moderate: 'Moderate Level (RRB Clerk Standard)',
+            hard: 'Hard Level (RRB Clerk Ceiling)',
+            exam_mix: 'All 3 Mix (RRB Clerk Prelims Shift)'
+        };
+
+        let appState = {
+            selectedMode: 'moderate', // 'easy' | 'moderate' | 'hard' | 'exam_mix'
+            adaptiveEnabled: false,
+            totalQuestions: 15,
+            questions: [],
+            currentIndex: 0,
+            isAnsweredOrSkipped: false,
+            correctCount: 0,
+            wrongCount: 0,
+            skippedCount: 0,
+            quizStartTimeMs: 0,
+            questionStartTimeMs: 0,
+            elapsedSec: 0,
+            timerInterval: null,
+            qTimerInterval: null,
+            currentFilter: 'all'
+        };
+
+        function togglePatternsModal(show) {
+            const modal = document.getElementById('patternsModal');
+            if (show) modal.classList.remove('hidden');
+            else modal.classList.add('hidden');
+        }
+
+        function selectDifficultyMode(mode) {
+            appState.selectedMode = mode;
+            ['easy', 'moderate', 'hard', 'exam_mix'].forEach(key => {
+                const btn = document.getElementById(`diffBtn_${key}`);
+                if (!btn) return;
+                if (key === mode) {
+                    btn.className = 'text-left p-4 rounded-xl border-2 border-emerald-500 bg-emerald-950/20 transition-all cursor-pointer flex flex-col justify-between gap-3';
+                } else {
+                    btn.className = 'text-left p-4 rounded-xl border-2 border-slate-800 bg-slate-950/70 hover:border-slate-700 transition-all cursor-pointer flex flex-col justify-between gap-3';
+                }
+            });
+        }
+
+        function setTotalQuestions(val) {
+            document.getElementById('totalQuestionsInput').value = val;
+            updateQuestionPresetStyles();
+        }
+
+        function updateQuestionPresetStyles() {
+            const current = parseInt(document.getElementById('totalQuestionsInput').value, 10);
+            [10, 15, 20, 30].forEach(preset => {
+                const btn = document.getElementById(`qChip_${preset}`);
+                if (!btn) return;
+                if (current === preset) {
+                    btn.className = 'px-3 py-2 rounded-lg text-xs font-mono font-bold bg-emerald-600 text-white cursor-pointer';
+                } else {
+                    btn.className = 'px-3 py-2 rounded-lg text-xs font-mono font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 cursor-pointer';
+                }
+            });
+        }
+
+        function startSimplificationQuiz() {
+            const rawTotal = parseInt(document.getElementById('totalQuestionsInput').value, 10);
+            const errBanner = document.getElementById('setupErrorBanner');
+            if (isNaN(rawTotal) || rawTotal < 1 || rawTotal > 100) {
+                errBanner.classList.remove('hidden');
+                return;
+            }
+            errBanner.classList.add('hidden');
+
+            appState.totalQuestions = rawTotal;
+            appState.adaptiveEnabled = document.getElementById('chkAdaptiveAI').checked;
+            appState.questions = window.RRBClerkSimplificationEngine.generateQuestionSet(
+                appState.selectedMode,
+                rawTotal
+            );
+            appState.currentIndex = 0;
+            appState.isAnsweredOrSkipped = false;
+            appState.correctCount = 0;
+            appState.wrongCount = 0;
+            appState.skippedCount = 0;
+
+            document.getElementById('setupScreen').classList.add('hidden');
+            document.getElementById('reviewScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.remove('hidden');
+
+            startQuizTimers();
+            renderCurrentQuestion();
+        }
+
+        function startQuizTimers() {
+            stopQuizTimers();
+            appState.quizStartTimeMs = Date.now();
+            appState.elapsedSec = 0;
+            document.getElementById('liveTimer').textContent = '00:00';
+
+            appState.timerInterval = setInterval(() => {
+                appState.elapsedSec = Math.floor((Date.now() - appState.quizStartTimeMs) / 1000);
+                const mins = String(Math.floor(appState.elapsedSec / 60)).padStart(2, '0');
+                const secs = String(appState.elapsedSec % 60).padStart(2, '0');
+                document.getElementById('liveTimer').textContent = `${mins}:${secs}`;
+            }, 500);
+
+            appState.qTimerInterval = setInterval(() => {
+                if (!appState.isAnsweredOrSkipped) {
+                    const qSec = ((Date.now() - appState.questionStartTimeMs) / 1000).toFixed(1);
+                    document.getElementById('questionTimerLive').textContent = `${qSec}s`;
+                }
+            }, 150);
+        }
+
+        function stopQuizTimers() {
+            if (appState.timerInterval) clearInterval(appState.timerInterval);
+            if (appState.qTimerInterval) clearInterval(appState.qTimerInterval);
+            appState.timerInterval = null;
+            appState.qTimerInterval = null;
+        }
+
+        function renderCurrentQuestion() {
+            // If AI adaptive mode is active, dynamically calibrate the current question's tier based on recent history
+            if (appState.adaptiveEnabled && appState.currentIndex > 0) {
+                const answeredHistory = appState.questions.slice(0, appState.currentIndex).map(item => ({
+                    status: item.status,
+                    timeTakenSec: item.timeTakenSec,
+                    targetSeconds: item.aiAnalysis.targetSeconds
+                }));
+                const prevTier = appState.questions[appState.currentIndex - 1].difficulty;
+                const nextTier = window.RRBClerkSimplificationEngine.getNextAdaptiveDifficulty(answeredHistory, prevTier);
+                if (appState.questions[appState.currentIndex].difficulty !== nextTier) {
+                    const freshQ = window.RRBClerkSimplificationEngine.generateSingleQuestion(nextTier);
+                    appState.questions[appState.currentIndex] = {
+                        id: appState.currentIndex + 1,
+                        ...freshQ,
+                        selectedOptionIndex: null,
+                        status: 'unanswered',
+                        timeTakenSec: 0
+                    };
+                }
+            }
+
+            const q = appState.questions[appState.currentIndex];
+            const total = appState.questions.length;
+            appState.isAnsweredOrSkipped = false;
+            appState.questionStartTimeMs = Date.now();
+
+            document.getElementById('currentQNum').textContent = appState.currentIndex + 1;
+            document.getElementById('totalQNum').textContent = total;
+            document.getElementById('liveCorrectCount').textContent = appState.correctCount;
+            document.getElementById('liveWrongCount').textContent = appState.wrongCount;
+            document.getElementById('liveSkippedCount').textContent = appState.skippedCount;
+
+            const tierColors = {
+                easy: 'text-xs font-bold text-emerald-400',
+                moderate: 'text-xs font-bold text-sky-400',
+                hard: 'text-xs font-bold text-amber-400'
+            };
+            const diffEl = document.getElementById('currentDifficultyLabel');
+            diffEl.className = tierColors[q.difficulty] || tierColors.moderate;
+            diffEl.textContent = q.difficulty === 'easy'
+                ? 'Easy Level'
+                : (q.difficulty === 'moderate' ? 'Moderate Level' : 'Hard Level (Clerk Ceiling)');
+
+            const pct = Math.max(5, Math.round((appState.currentIndex / total) * 100));
+            document.getElementById('quizProgressBar').style.width = `${pct}%`;
+
+            document.getElementById('qPatternName').textContent = q.patternName;
+            document.getElementById('qAiScoreLabel').textContent = `AI Clerk Index: ${q.aiAnalysis.complexityScore}/100 (PO-Blocked)`;
+            document.getElementById('qTargetTimeLabel').textContent = `Target: ${q.aiAnalysis.targetSeconds}s`;
+            document.getElementById('questionExpressionText').textContent = q.expression;
+            document.getElementById('questionTimerLive').textContent = '0.0s';
+
+            // Render 4 MCQ Option Buttons
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = q.options.map((optVal, idx) => {
+                const letter = OPTION_LETTERS[idx];
+                return `
+                    <button type="button" id="mcqOptionBtn_${idx}" onclick="handleSelectOption(${idx})"
+                        class="w-full p-4 rounded-xl border-2 border-slate-800 bg-slate-950/80 hover:border-emerald-500/70 hover:bg-slate-900 text-left transition-all cursor-pointer flex items-center justify-between gap-3 group">
+                        <div class="flex items-center gap-3.5">
+                            <span id="mcqOptionBadge_${idx}" class="w-8 h-8 rounded-lg bg-slate-800 group-hover:bg-emerald-600/30 text-slate-300 group-hover:text-emerald-300 font-mono font-bold text-sm flex items-center justify-center transition-colors">
+                                ${letter}
+                            </span>
+                            <span class="font-mono text-xl sm:text-2xl font-extrabold text-white tabular-nums">${optVal}</span>
+                        </div>
+                        <span id="mcqOptionStatus_${idx}" class="text-xs font-bold text-slate-500">Select</span>
+                    </button>
+                `;
+            }).join('');
+
+            // Hide feedback banner & update buttons
+            document.getElementById('feedbackBanner').classList.add('hidden');
+            const skipBtn = document.getElementById('skipQuestionBtn');
+            skipBtn.disabled = false;
+            skipBtn.className = 'px-5 py-3 rounded-xl border border-amber-500/40 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 font-bold text-sm transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap';
+
+            const nextBtnText = document.getElementById('nextQuestionBtnText');
+            nextBtnText.textContent = (appState.currentIndex + 1 === total)
+                ? 'Finish & View Report →'
+                : 'Next Question →';
+        }
+
+        function handleSelectOption(optionIndex) {
+            if (appState.isAnsweredOrSkipped) return;
+
+            const q = appState.questions[appState.currentIndex];
+            const elapsed = Math.max(0.2, +((Date.now() - appState.questionStartTimeMs) / 1000).toFixed(1));
+
+            appState.isAnsweredOrSkipped = true;
+            q.selectedOptionIndex = optionIndex;
+            q.timeTakenSec = elapsed;
+
+            const isCorrect = (optionIndex === q.correctIndex);
+            q.status = isCorrect ? 'correct' : 'wrong';
+
+            if (isCorrect) appState.correctCount++;
+            else appState.wrongCount++;
+
+            document.getElementById('liveCorrectCount').textContent = appState.correctCount;
+            document.getElementById('liveWrongCount').textContent = appState.wrongCount;
+
+            // Style the 4 option buttons to show Correct & Wrong clearly
+            q.options.forEach((_, idx) => {
+                const btn = document.getElementById(`mcqOptionBtn_${idx}`);
+                const badge = document.getElementById(`mcqOptionBadge_${idx}`);
+                const statusEl = document.getElementById(`mcqOptionStatus_${idx}`);
+                btn.disabled = true;
+
+                if (idx === q.correctIndex) {
+                    btn.className = 'w-full p-4 rounded-xl border-2 border-emerald-500 bg-emerald-950/30 text-left flex items-center justify-between gap-3';
+                    badge.className = 'w-8 h-8 rounded-lg bg-emerald-600 text-white font-mono font-bold text-sm flex items-center justify-center';
+                    statusEl.className = 'text-xs font-extrabold text-emerald-400';
+                    statusEl.textContent = '✓ Correct';
+                } else if (idx === optionIndex && !isCorrect) {
+                    btn.className = 'w-full p-4 rounded-xl border-2 border-rose-500 bg-rose-950/30 text-left flex items-center justify-between gap-3';
+                    badge.className = 'w-8 h-8 rounded-lg bg-rose-600 text-white font-mono font-bold text-sm flex items-center justify-center';
+                    statusEl.className = 'text-xs font-extrabold text-rose-400';
+                    statusEl.textContent = '✗ Your Choice';
+                } else {
+                    btn.className = 'w-full p-4 rounded-xl border-2 border-slate-800/60 bg-slate-950/40 opacity-55 text-left flex items-center justify-between gap-3';
+                    statusEl.textContent = '';
+                }
+            });
+
+            // Disable skip button after answering
+            const skipBtn = document.getElementById('skipQuestionBtn');
+            skipBtn.disabled = true;
+            skipBtn.className = 'px-5 py-3 rounded-xl border border-slate-800 bg-slate-900 text-slate-600 font-bold text-sm flex items-center gap-2 whitespace-nowrap cursor-not-allowed';
+
+            showFeedbackPanel(q, isCorrect ? 'correct' : 'wrong');
+        }
+
+        function handleSkipQuestion() {
+            if (appState.isAnsweredOrSkipped) {
+                advanceToNextOrFinish();
+                return;
+            }
+
+            const q = appState.questions[appState.currentIndex];
+            const elapsed = Math.max(0.1, +((Date.now() - appState.questionStartTimeMs) / 1000).toFixed(1));
+
+            appState.isAnsweredOrSkipped = true;
+            q.selectedOptionIndex = null;
+            q.timeTakenSec = elapsed;
+            q.status = 'skipped';
+            appState.skippedCount++;
+
+            document.getElementById('liveSkippedCount').textContent = appState.skippedCount;
+
+            // Reveal correct option for learning
+            q.options.forEach((_, idx) => {
+                const btn = document.getElementById(`mcqOptionBtn_${idx}`);
+                const badge = document.getElementById(`mcqOptionBadge_${idx}`);
+                const statusEl = document.getElementById(`mcqOptionStatus_${idx}`);
+                btn.disabled = true;
+
+                if (idx === q.correctIndex) {
+                    btn.className = 'w-full p-4 rounded-xl border-2 border-amber-500 bg-amber-950/25 text-left flex items-center justify-between gap-3';
+                    badge.className = 'w-8 h-8 rounded-lg bg-amber-500 text-slate-950 font-mono font-bold text-sm flex items-center justify-center';
+                    statusEl.className = 'text-xs font-extrabold text-amber-400';
+                    statusEl.textContent = 'Correct Option';
+                } else {
+                    btn.className = 'w-full p-4 rounded-xl border-2 border-slate-800/60 bg-slate-950/40 opacity-50 text-left flex items-center justify-between gap-3';
+                    statusEl.textContent = '';
+                }
+            });
+
+            const skipBtn = document.getElementById('skipQuestionBtn');
+            skipBtn.disabled = true;
+            skipBtn.className = 'px-5 py-3 rounded-xl border border-slate-800 bg-slate-900 text-slate-600 font-bold text-sm flex items-center gap-2 whitespace-nowrap cursor-not-allowed';
+
+            showFeedbackPanel(q, 'skipped');
+        }
+
+        function handleNextQuestion() {
+            // If user clicks "Next Question" without picking an option yet, treat it as Skip & Advance immediately
+            if (!appState.isAnsweredOrSkipped) {
+                const q = appState.questions[appState.currentIndex];
+                const elapsed = Math.max(0.1, +((Date.now() - appState.questionStartTimeMs) / 1000).toFixed(1));
+                q.selectedOptionIndex = null;
+                q.timeTakenSec = elapsed;
+                q.status = 'skipped';
+                appState.skippedCount++;
+            }
+            advanceToNextOrFinish();
+        }
+
+        function advanceToNextOrFinish() {
+            if (appState.currentIndex + 1 < appState.questions.length) {
+                appState.currentIndex++;
+                renderCurrentQuestion();
+            } else {
+                showFinalReview();
+            }
+        }
+
+        function showFeedbackPanel(q, outcome) {
+            const banner = document.getElementById('feedbackBanner');
+            const heading = document.getElementById('feedbackHeading');
+            const pacing = document.getElementById('feedbackPacingNote');
+            const shortcut = document.getElementById('feedbackShortcutText');
+            const stepsList = document.getElementById('feedbackStepsList');
+
+            banner.classList.remove('hidden');
+            const correctLetter = OPTION_LETTERS[q.correctIndex];
+
+            if (outcome === 'correct') {
+                banner.className = 'p-4 sm:p-5 rounded-xl border border-emerald-500/50 bg-emerald-950/25 space-y-2';
+                heading.className = 'text-sm sm:text-base font-extrabold text-emerald-400';
+                heading.textContent = `✓ Correct! Option (${correctLetter}) ${q.answer}`;
+            } else if (outcome === 'wrong') {
+                const chosenLetter = OPTION_LETTERS[q.selectedOptionIndex];
+                banner.className = 'p-4 sm:p-5 rounded-xl border border-rose-500/50 bg-rose-950/25 space-y-2';
+                heading.className = 'text-sm sm:text-base font-extrabold text-rose-400';
+                heading.textContent = `✗ Wrong (You picked ${chosenLetter}). Correct Answer: (${correctLetter}) ${q.answer}`;
+            } else {
+                banner.className = 'p-4 sm:p-5 rounded-xl border border-amber-500/50 bg-amber-950/25 space-y-2';
+                heading.className = 'text-sm sm:text-base font-extrabold text-amber-400';
+                heading.textContent = `⏭ Question Skipped · Correct Answer: (${correctLetter}) ${q.answer}`;
+            }
+
+            const speedTag = q.timeTakenSec <= q.aiAnalysis.targetSeconds ? 'Within Clerk Target' : 'Above Target Time';
+            pacing.textContent = `Time: ${q.timeTakenSec}s · Target: ${q.aiAnalysis.targetSeconds}s (${speedTag})`;
+            shortcut.textContent = `RRB Clerk Shortcut: ${q.shortcutTip}`;
+            stepsList.innerHTML = q.steps.map(s => `<div>• ${s}</div>`).join('');
+        }
+
+        function finishQuizEarly() {
+            // Mark any remaining unanswered questions as skipped
+            for (let i = appState.currentIndex; i < appState.questions.length; i++) {
+                if (appState.questions[i].status === 'unanswered') {
+                    appState.questions[i].status = 'skipped';
+                }
+            }
+            appState.skippedCount = appState.questions.filter(q => q.status === 'skipped').length;
+            showFinalReview();
+        }
+
+        function showFinalReview() {
+            stopQuizTimers();
+            document.getElementById('setupScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.add('hidden');
+            document.getElementById('reviewScreen').classList.remove('hidden');
+
+            const qs = appState.questions;
+            const total = qs.length;
+            const correct = qs.filter(q => q.status === 'correct').length;
+            const wrong = qs.filter(q => q.status === 'wrong').length;
+            const skipped = qs.filter(q => q.status === 'skipped').length;
+            const attempted = correct + wrong;
+            const acc = attempted > 0 ? Math.round((correct / attempted) * 100) : 0;
+
+            const totalTime = qs.reduce((acc, q) => acc + (q.timeTakenSec || 0), 0);
+            const avgTime = total > 0 ? (totalTime / total).toFixed(1) : '0.0';
+
+            document.getElementById('reviewSubheading').textContent =
+                `Mode: ${DIFFICULTY_LABELS[appState.selectedMode]}${appState.adaptiveEnabled ? ' + AI Auto-Adjust' : ''} · ${total} Questions`;
+
+            document.getElementById('sumTotal').textContent = total;
+            document.getElementById('sumCorrect').textContent = correct;
+            document.getElementById('sumWrong').textContent = wrong;
+            document.getElementById('sumSkipped').textContent = skipped;
+            document.getElementById('sumAvgTime').textContent = `${avgTime}s`;
+            document.getElementById('sumAccuracyLabel').textContent = `Accuracy: ${acc}% (${correct}/${attempted || total})`;
+
+            // AI Exam Readiness Verdict
+            const verdictTitle = document.getElementById('aiVerdictTitle');
+            const verdictDetail = document.getElementById('aiVerdictDetail');
+            if (acc >= 85 && parseFloat(avgTime) <= 24) {
+                verdictTitle.textContent = 'AI Verdict: RRB Clerk Prelims Cutoff Ready';
+                verdictDetail.textContent = `Strong accuracy (${acc}%) and ${avgTime}s/question pace match the 15-question in 5-minute RRB Clerk simplification benchmark.`;
+            } else if (acc >= 70) {
+                verdictTitle.textContent = 'AI Verdict: Solid Accuracy — Focus on Fraction & Root Recall Speed';
+                verdictDetail.textContent = `You got ${correct} right (${acc}% accuracy). Use the shortcut derivations below to bring average time under 20s/question.`;
+            } else {
+                verdictTitle.textContent = 'AI Verdict: Build Foundation in Easy & Moderate Tiers First';
+                verdictDetail.textContent = `Review the step-by-step BODMAS and fraction-percentage conversions below, then retry Easy or Moderate mode.`;
+            }
+
+            // Tier Breakdown Table
+            const tierBody = document.getElementById('tierBreakdownBody');
+            const tierNames = [
+                { key: 'easy', label: 'Easy Level (12–17s)' },
+                { key: 'moderate', label: 'Moderate Level (18–25s)' },
+                { key: 'hard', label: 'Hard Level (Clerk Ceiling 25–34s)' }
+            ];
+            tierBody.innerHTML = tierNames.map(t => {
+                const tQs = qs.filter(q => q.difficulty === t.key);
+                const tTotal = tQs.length;
+                const tCor = tQs.filter(q => q.status === 'correct').length;
+                const tWro = tQs.filter(q => q.status === 'wrong').length;
+                const tSkp = tQs.filter(q => q.status === 'skipped').length;
+                const tAvg = tTotal > 0
+                    ? (tQs.reduce((a, b) => a + (b.timeTakenSec || 0), 0) / tTotal).toFixed(1) + 's'
+                    : '—';
+                return `
+                    <tr class="hover:bg-slate-950/40">
+                        <td class="py-3 px-4 font-sans font-bold text-slate-200">${t.label}</td>
+                        <td class="py-3 px-4 text-center">${tTotal}</td>
+                        <td class="py-3 px-4 text-center text-emerald-400 font-bold">${tCor}</td>
+                        <td class="py-3 px-4 text-center text-rose-400 font-bold">${tWro}</td>
+                        <td class="py-3 px-4 text-center text-amber-400 font-bold">${tSkp}</td>
+                        <td class="py-3 px-4 text-right text-slate-300">${tAvg}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            renderReviewLog('all');
+        }
+
+        function renderReviewLog(filter) {
+            appState.currentFilter = filter;
+            ['all', 'wrong', 'skipped', 'correct'].forEach(k => {
+                const btn = document.getElementById(`logFilter_${k}`);
+                if (!btn) return;
+                if (k === filter) {
+                    btn.className = 'px-3 py-1 rounded-lg text-xs font-bold bg-slate-800 text-white cursor-pointer';
+                } else {
+                    btn.className = 'px-3 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white cursor-pointer';
+                }
+            });
+
+            const container = document.getElementById('reviewLogContainer');
+            const filtered = appState.questions.filter(q => {
+                if (filter === 'all') return true;
+                return q.status === filter;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="p-6 rounded-xl bg-slate-950/60 border border-slate-800 text-center text-xs text-slate-400">
+                        No questions match this filter.
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(q => {
+                const correctLetter = OPTION_LETTERS[q.correctIndex];
+                const userLetter = q.selectedOptionIndex !== null ? OPTION_LETTERS[q.selectedOptionIndex] : null;
+                const userVal = q.selectedOptionIndex !== null ? q.options[q.selectedOptionIndex] : 'Skipped';
+
+                let statusLabel = '';
+                if (q.status === 'correct') {
+                    statusLabel = `<span class="text-xs font-bold text-emerald-400">✓ Correct (${q.timeTakenSec}s)</span>`;
+                } else if (q.status === 'wrong') {
+                    statusLabel = `<span class="text-xs font-bold text-rose-400">✗ Wrong · Picked (${userLetter}) ${userVal}</span>`;
+                } else {
+                    statusLabel = `<span class="text-xs font-bold text-amber-400">⏭ Skipped</span>`;
+                }
+
+                return `
+                    <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                        <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+                            <div class="flex items-center gap-2">
+                                <span class="font-mono font-bold text-slate-400">#${q.id}</span>
+                                <span class="text-slate-600">·</span>
+                                <span class="font-bold text-slate-200 capitalize">${q.difficulty}</span>
+                                <span class="text-slate-600">·</span>
+                                <span class="text-slate-400">${q.patternName}</span>
+                            </div>
+                            ${statusLabel}
+                        </div>
+                        <div class="font-mono text-base sm:text-lg font-extrabold text-white tabular-nums">
+                            ${q.expression}
+                        </div>
+                        <div class="flex flex-wrap items-center gap-3 text-xs font-mono pt-1">
+                            ${q.options.map((opt, idx) => {
+                                const isCor = idx === q.correctIndex;
+                                const isPick = idx === q.selectedOptionIndex;
+                                const cls = isCor
+                                    ? 'text-emerald-400 font-bold underline'
+                                    : (isPick ? 'text-rose-400 line-through' : 'text-slate-400');
+                                return `<span class="${cls}">(${OPTION_LETTERS[idx]}) ${opt}</span>`;
+                            }).join('  ')}
+                        </div>
+                        <p class="text-xs text-slate-300 pt-1 border-t border-slate-800/80">
+                            <strong class="text-emerald-400">Shortcut:</strong> ${q.shortcutTip}
+                        </p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function retrySameQuiz() {
+            startSimplificationQuiz();
+        }
+
+        function returnToSetup() {
+            stopQuizTimers();
+            document.getElementById('quizScreen').classList.add('hidden');
+            document.getElementById('reviewScreen').classList.add('hidden');
+            document.getElementById('setupScreen').classList.remove('hidden');
+        }
+
+        // Keyboard shortcuts for speed practice (1-4 / A-D for options, S for Skip, Enter for Next)
+        document.addEventListener('keydown', (e) => {
+            const modalOpen = !document.getElementById('patternsModal').classList.contains('hidden');
+            if (modalOpen) {
+                if (e.key === 'Escape') togglePatternsModal(false);
+                return;
+            }
+
+            const quizVisible = !document.getElementById('quizScreen').classList.contains('hidden');
+            if (!quizVisible) return;
+
+            const key = e.key.toUpperCase();
+            if (!appState.isAnsweredOrSkipped) {
+                if (key === '1' || key === 'A') { e.preventDefault(); handleSelectOption(0); }
+                else if (key === '2' || key === 'B') { e.preventDefault(); handleSelectOption(1); }
+                else if (key === '3' || key === 'C') { e.preventDefault(); handleSelectOption(2); }
+                else if (key === '4' || key === 'D') { e.preventDefault(); handleSelectOption(3); }
+                else if (key === 'S') { e.preventDefault(); handleSkipQuestion(); }
+            } else if (e.key === 'Enter' || e.key === 'ArrowRight') {
+                e.preventDefault();
+                handleNextQuestion();
+            }
+        });
+
+        // Support ?autostart=1 query param for instant drill launch
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const diff = params.get('difficulty');
+            if (diff && ['easy', 'moderate', 'hard', 'exam_mix'].includes(diff)) {
+                selectDifficultyMode(diff);
+            }
+            if (params.get('autostart') === '1') {
+                startSimplificationQuiz();
+            }
+        });
+    </script>
+</body>
+</html>
